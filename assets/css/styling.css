@@ -181,18 +181,20 @@ body {
     font-weight: 400;
 }
 .col-md-12.centerBox {
-    left: 25%;
+    left: 20%;
 }
 .orange-box2 {
     background-color: var(--primary-color);
     border-radius: 20px;
     align-items: center;
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
     font-weight: bold;
     color: var(--primary-Whitecolor);
     width: 50%;
     padding: 5px;
+    padding-inline: 50px;
+    padding-block: 10px;
     justify-content: center;
     letter-spacing: 2px;
     font-size: 34px;
