@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MHRealty - Mumbai-Navi Mumbai property | Property for sale in Mumbai-Navi Mumbai | Residential apartment for
+    rent in Mumbai-Navi Mumbai
+  </title>
+  <meta name="keywords"
+    content="Mumbai-Navi Mumbai property, property for sale in Navi Mumbai, residential apartment for rent in Navi Mumbai">
+  <meta name="description"
+    content="Home is where the heart is!,No matter you are renting, selling or buying a property in Mumbai-Navi Mumbai We are here for you to help!">
+  <link rel="canonical" href="https://MHRealty/">
+
+  <meta property="og:title" content="MHRealty">
+  <meta property="og:site_name" content="MHRealty">
+  <meta property="og:type" content="website">
+  <meta property="og:description"
+    content="Properties to buy in city,Let's start your journey with us, your dream will come true">
+  <meta name="author" content="MHRealty">
+  <meta name="googlebot" content="index, follow">
+  <meta name="yahooseeker" content="index, follow">
+  <meta name="msnbot" content="index, follow">
+  <meta name="robots" content="index, follow">
+  <meta name="distribution" content="INDIA">
+  <meta name="revisit-after" content="3 days">
+  <meta name="rating" content="general">
+  <meta name="language" content="en-us">
+  <meta name="document-type" content="Public">
+  <link rel="icon" type="image/x-icon" href=" /assets/MHRealty/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="assets/css/index.css" rel="stylesheet">
+  <link as="style" onload="this.onload=null;this.rel='stylesheet'" href="assets/css/styling.css" rel="preload">
+  <link as="style" onload="this.onload=null;this.rel='stylesheet'" href="assets/css/responsive.css" rel="preload">
+  <!-- <link as="style" onload="this.onload=null;this.rel='stylesheet'" rel="preload"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link as="style" onload="this.onload=null;this.rel='stylesheet'" rel="preload"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="./assets/app.js"></script>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+</head>
+
+<body>
+  <div id="map"></div>
+  <div id="map1"></div>
+  <div id="map2"></div>
+
+ <div id="navbar-placeholder"></div>
+
+  <div>
+    <div class="modal fade" id="popupimages" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document" style="height: 100%;">
+        <div class="modal-content">
+          <div class="modal-header bg-theme" style="width: 100.1%; background-color: black;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="color: #fff;">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="popup-body" style="background-color: black;">
+            <nav class="nav" id="popup-tab">
+            </nav>
+            <div id="next-photo"></div>
+            <div id="previous-photo"></div>
+
+            <div class="row" id="show-image" style="margin-top: 5%;">
+
+            </div>
+
+
+          </div>
+          <div class="modal-footer d-flex" style="display: none;">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="zoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin: 0;max-width:100%;max-height: 100%;height: 100%;">
+      <div class="modal-content" style="height: 100%;">
+        <div class="modal-header">
+          <div class="row w-100" style="display: flex;justify-content: center;">
+            <h3 id="imagetag"></h3>
+          </div>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="color: black;">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body justify-content-center" style="background-color: black;overflow: auto;overflow: hidden;">
+          <div class="row" style="margin-top: 5%;justify-content: center">
+            <div class="col-md-11" id="zoomimage" style="display: flex;justify-content: center;">
+
+            </div>
+            <div class="col-md-1" style="display: flex;flex-direction: column;margin-top: 300px;">
+              <i class="fa fa-search-plus mt-4" aria-hidden="true" style="color:white;font-size:20px;cursor:pointer"
+                onclick="zoomin()"></i>
+              <i class="fa fa-refresh mt-4" aria-hidden="true" style="color:white;font-size:20px;cursor:pointer"
+                onclick="reset()"></i>
+              <i class="fa fa-search-minus mt-4" aria-hidden="true" style="color:white;font-size:20px;cursor:pointer"
+                onclick="zoomout()"></i>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Contact modal in Property detail -->
+  <div id="modalContact" class="modal fade" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" style="text-left: center">Fill your enquiry</h4>
+          <button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true" class="text-dark">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <div class="formbox"> -->
+          <form id="contactForm" class="propertyContactForm" name="getinTouchForm">
+            <div class="text-success" id="valid-response-getintoucg" style="justify-content: center;display: none;">
+              <p>Your contact request submitted
+            </div>
+            <div class="text-danger" id="invalid-response-getintoucg" style="justify-content: center;display: none;">
+              <p>Something went wrong, You can try one more time
+            </div>
+
+            <div class="input_wrap">
+              <input type="text" placeholder="" required class="form-control floatingLabel" name="getinTouchFormname"
+                id="CUname" onblur="addRequired('CUname')" oninput="removeValidationGetinTouch()"
+                style="padding-left: 14px;">
+              <label style="margin-left: 14px;">Your name<span class="text-danger">*</span></label>
+            </div>
+            <small class="text-danger" style="display: none;" id="name-req-getintouch">* Required</small>
+            <div class="space"></div>
+
+            <div class="input_wrap">
+              <input type="text" placeholder="" required class="form-control floatingLabel" name="getinTouchFormemail"
+                id="CUemail1" onblur="addRequired('CUemail1');isValidEmail('CUemail1','notValidEmail11')"
+                oninput="removeValidationGetinTouch()" style="padding-left: 14px;">
+              <label style="margin-left: 14px;">Your email id<span class="text-danger">*</span></label>
+              <small class="text-danger" style="display: none" id="notValidEmail11">* Invalid Email</small>
+            </div>
+            <small class="text-danger" style="display: none;" id="email-req-getintouch">* Required</small>
+            <div class="space"></div>
+
+            <div class="input_wrap">
+              <input type="text" placeholder="" required minlength=10 maxlength=10 class="form-control floatingLabel"
+                name="getinTouchFormmobile" id="CUmobile" onblur="addRequired('CUmobile')"
+                oninput="removeValidationGetinTouch()"
+                onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;"
+                oninput="removeValidationGetinTouch()" style="padding-left: 14px;">
+              <label style="margin-left: 14px;">Your mobile number<span class="text-danger">*</span></label>
+            </div>
+            <small class="text-danger" style="display: none;" id="mobile-req-getintouch">* Required</small>
+            <small class="text-danger" style="display: none" id="invalidMobileContact">* Mobile number should be 10
+              digit</small>
+            <div class="space"></div>
+
+            <div class="input_wrap">
+              <textarea style="height:120px; padding-left: 14px;" placeholder="" required
+                class="form-control floatingLabel w-100" id="CUmessage" cols="30" rows="7" name="getinTouchFormmessage"
+                onblur="addRequired('CUmessage')" oninput="removeValidationGetinTouch()"></textarea>
+              <label style="margin-left: 14px;">Your message<span class="text-danger">*</span></label>
+            </div>
+            <small class="text-danger" style="display: none;" id="message-req-getintouch">* Required</small>
+            <div class="space"></div>
+            <div class="d-flex">
+              <div class="g-recaptcha" id="rcaptcha" data-sitekey="6LdtCSgpAAAAAHm8tDwx8-L9LoDGx25ySNH9dPCv"
+                data-callback="correctCaptcha3"></div>
+              <button class="btn btn float-right align-items-center login-button mx-auto searchbutton searchbutton ml-1"
+                style="width: 100%;height: 74px;margin-top: 1px;" disabled type="button"
+                onclick="sendMessageGetinTouchForm()" id="contactus-btn1">Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <input type="text" id="store-images" style="display:none">
+    <div class="card " id="main-card">
+
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+<div class="footer">
+  <div class="row">
+    <div class="col-md-5 footerBody footerBodyTab ">
+      <ul>
+        <li style="margin-left: 15px;">
+          <span class="footerHead">
+            Offices
+          </span>
+        </li>
+        <div style="display: flex;" class="footerBothAdrs">
+        <div class="col-md-6">
+          <li class="footerLi1" style="margin-bottom: 10px;">
+            <span class="footerText">
+              <br>SS-3 Type, Room No.-53<br>
+                  Sector-2, VASHI<br>
+              <b>NAVI MUMBAI</b> - 400703
+            </span>
+          </li>
+          <li style="display: flex;align-items: center;">
+            <div>
+              <i class="fa fa-whatsapp phnIcon"></i>
+            </div>
+            <div style="display: grid;line-height: 30px;">
+              <span>
+                <a href="https://api.whatsapp.com/send?phone=9820579580"
+                  class="footerText">&nbsp;&nbsp;&nbsp;&nbsp;+91
+                  9820579580</a>
+              </span>
+              <span>
+                <a href="https://api.whatsapp.com/send?phone=7303062845"
+                  class="footerText">&nbsp;&nbsp;&nbsp;&nbsp;+91
+                  7303062845</a>
+              </span>
+            </div>
+          </li>
+          <li style="display: flex;align-items: center;">
+            <div>
+              <i class="fa fa-envelope emailIcon"></i>
+            </div>
+            <div>
+              <a href="mailto:info@mhrealty.in" class="footerText">&nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in</a>
+            </div>
+          </li>
+        </div>
+        <div class="col-md-6">
+          <li class="footerLi1">
+            <span class="footerText">
+                <br>1204/5 Ghole Road
+                <br>Opposite of Natural Icecream
+                <br>Balgandharwa Chowk
+                <br>Shivaji Nagar, <b>PUNE</b> - 411004<br>
+              <!-- <br>1204/5 Ghole Road<br>
+              Balgandharwa Chowk, Shivaji Nagar, <b>Pune</b> - 411004 -->
+            </span>
+          </li>
+          <li style="display: flex;align-items: center;">
+            <div>
+              <i class="fa fa-whatsapp phnIcon"></i>
+            </div>
+            <div style="display: grid;line-height: 30px;">
+              <span>
+                <a href="https://api.whatsapp.com/send?phone=7303062845"
+                  class="footerText">&nbsp;&nbsp;&nbsp;&nbsp;+91
+                  7303062845</a>
+              </span>
+            </div>
+          </li>
+          <li style="display: flex;align-items: center;">
+            <div>
+              <i class="fa fa-envelope emailIcon"></i>
+            </div>
+            <div>
+              <a href="mailto:info@mhrealty.in" class="footerText">&nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in</a>
+            </div>
+          </li>
+        </div>
+      </div>
+      </ul>
+    </div>
+    <div class="col-md-3 footerBody footerBodyTab">
+      <ul>
+        <li>
+          <span class="footerHead">
+            Quick Links
+          </span>
+        </li>
+        <li style="margin-top: 20px;">
+          <a href="./index.html" class="footerTextLink">Home</a>
+        </li>
+        <li>
+          <a href="./about.html" class="footerTextLink">About</a>
+        </li>
+        <li>
+          <a href="./contact.html" class="footerTextLink">Contact Us</a>
+        </li>
+        <li>
+          <a href="./faq.html" class="footerTextLink">FAQ</a>
+        </li>
+        <li>
+          <a href="./terms_conditions.html" class="footerTextLink">Terms & Conditions</a>
+        </li>
+        <li>
+          <a href="./privacy_policy.html" class="footerTextLink">Privacy Policy</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-4 footerBody">
+      <ul>
+        <li style="text-align: center;" onclick="redirectToPage()">
+          <img src="./assets/MHRealty/MHRealty-logo-black.png" alt="Logo" class="logoIMG">
+        </li>
+        <li class="footerTextLink">
+          <span class="footerHead footerHeadFollow">
+            Follow Us on
+          </span>
+        </li>
+        <li class="footerTextLink">
+          <div style="display: flex;" class="popularProperties footerAllLogo">
+            <div class="socalbox socalicon">
+              <a href="https://api.whatsapp.com/send?phone=919820579580" target="_blank">
+                <i class="fa fa-whatsapp"></i>
+              </a>
+            </div>
+            <div class="socalbox  socalicon">
+              <a href="https://www.youtube.com/channel/UC9RCHr4nI7l9A0pcThqzpfQ" target="_blank">
+                <i class="fa fa-youtube"></i>
+              </a>
+            </div>
+            <div class="socalbox  socalicon">
+              <a href="https://www.facebook.com/mhrealty.in" target="_blank">
+                <i class="fa fa-facebook socIcon"></i>
+              </a>
+            </div>
+            <div class="socalbox  socalicon">
+              <a href="https://www.instagram.com/" target="_blank">
+                <i class="fa fa-instagram socIcon"></i>
+              </a>
+            </div>
+            <div class="socalbox  socalicon">
+              <a href="https://www.google.com/" target="_blank">
+                <i class="fa fa-google socIcon"></i>
+              </a>
+            </div>
+            <div class="socalbox  socalicon">
+              <a href="https://www.linkedin.com/" target="_blank">
+                <i class="fa fa-linkedin socIcon"></i>
+              </a>
+            </div>
+
+            <div class="socalbox  socalicon">
+              <a href="https://twitter.com/" target="_blank">
+                <i class="fa fa-twitter socIcon"></i>
+              </a>
+            </div>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="copyright">
+    <div class="">
+      <h6 class="copyrightText" id="copyrightText">
+        Copyright ©2023&nbsp;MHRealty All rights reserved.
+      </h6>
+    </div>
+    <div class="linkCompanyTab">
+      <a class="linkCompany" href="https://ansits.com" target="_blank">
+        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="40%" alt="ansit.com"
+            class="img-powered" alt="ansit.com"></h6>
+      </a>
+    </div>
+  </div>
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var startYear = 2023;
+      var currentYear = new Date().getFullYear();
+      var copyrightText = document.getElementById('copyrightText');
+
+      if (currentYear > startYear) {
+        copyrightText.innerText = `Copyright ©${startYear}-${currentYear} MHRealty All rights reserved.`;
+      }
+    });
+    function openWhatsApp(phoneNumber) {
+      const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + encodeURIComponent(phoneNumber);
+      window.open(whatsappUrl, '_blank');
+    }
+    function redirectToPage() {
+        window.location.href = "./index.html";
+    }
+  </script>
+</body>
+
+</html>
