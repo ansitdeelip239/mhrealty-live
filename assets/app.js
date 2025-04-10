@@ -49,7 +49,8 @@ function setActiveClass() {
 // ******  Backend Api  *******
 
 // Live---------
-let apiUrl = 'https://dncrpropertyapi.azurewebsites.net/'
+// let apiUrl = 'https://dncrpropertyapi.azurewebsites.net/'
+let apiUrl = 'https://freehostingweb.bsite.net/'
 
 // Dev----------
 // let apiUrl = 'https://devdncrbe.azurewebsites.net/'
