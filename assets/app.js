@@ -1049,7 +1049,7 @@ function renderProperties(data) {
         <div class="image-container">
           <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" alt="">
           <div class="overlay">
-            <button onclick="renderPropertiesRedirection(${x.ID}, ${'true'})">Click for More</button>
+            <button onclick="renderPropertiesRedirection(${x.ID}, ${'true'})">Click for More Info</button>
           </div>
         </div>
         <div class="xyz">
