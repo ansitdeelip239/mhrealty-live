@@ -7,7 +7,7 @@ var partnerId = 'info@mhrealty.in';
 // Execute after the DOM is loaded
 document.addEventListener('DOMContentLoaded', loadNavbar);
 function loadNavbar() {
-  debugger
+  // debugger
   fetch('./navbar.html')
     .then(response => response.text())
     .then(data => {
@@ -518,7 +518,7 @@ function imageslistpopup(index, slider, resale) {
   let photos;
   let video;
   if (slider) {
-    debugger
+    // debugger
     photos = JSON.parse(localStorage.getItem(`imageSlider${index}`));
     video = localStorage.getItem(`videoSlider${index}`);
   }
@@ -1040,7 +1040,6 @@ function renderProperties(data) {
   const propertiesPerPage = 4; // Show 4 properties at a time
   const startIndex = currentPageIndex * propertiesPerPage;
   const endIndex = Math.min(startIndex + propertiesPerPage, totalProperties);
-
   for (let i = startIndex; i < endIndex; i++) {
     const x = data?.data?.propertyModels[i];
     const toggledImage = x.ImageURLType.find(img => img.toggle === true);
@@ -1159,7 +1158,7 @@ function renderProperties1(data) {
       const propertyHtml = `
         <div style="border: 1px solid #D9D9D9;
                     background: #FFF;
-                    width: 298px; margin-bottom: 20px;object-fit: cover;"
+                    margin-bottom: 20px;object-fit: cover;"
                     class="popularPropertiesBody"
                     onclick="renderProperties1Redirection(${property?.ID},${'true'})">
           <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 250px;" alt="">
