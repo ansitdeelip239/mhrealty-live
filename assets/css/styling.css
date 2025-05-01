@@ -274,7 +274,7 @@ body {
   justify-content: space-evenly;
   display: flex;
   flex-wrap: wrap;
-  width: 100% !important;
+  width: 100%;
 }
 .headingsContainer {
   margin-top: 20px;

@@ -1059,31 +1059,7 @@ function renderProperties(data) {
       </div>
     `;
   }
-
-  // Update button states
-  const prevButton = document.getElementById('prevButton');
-  const nextButton = document.getElementById('nextButton');
-  prevButton.disabled = currentPageIndex === 0;
-  nextButton.disabled = endIndex >= totalProperties;
 }
-
-// Navigation button event listeners
-document.getElementById('prevButton').addEventListener('click', () => {
-  if (currentPageIndex > 0) {
-    currentPageIndex--;
-    renderProperties(data); // Assuming 'data' is available in scope
-  }
-});
-
-document.getElementById('nextButton').addEventListener('click', () => {
-  const totalProperties = data?.data?.propertyModels.length || 0;
-  if ((currentPageIndex + 1) * 4 < totalProperties) {
-    currentPageIndex++;
-    renderProperties(data);
-  }
-});
-
-
 function saveImagesAndVideos(propertyModels) {
   let i = 0;
   propertyModels.forEach(x => {
@@ -1251,7 +1227,7 @@ function renderProperties1(data) {
       }).join('');
 
       headingsContainerResaleApi.innerHTML += `
-        <div class="popularProperties" style="width: 100%; display: flex; justify-content: space-evenly;">
+        <div class="popularProperties" style="width: 100%;  display: flex; justify-content: space-evenly;">
           ${rowHtml}
         </div>
       `;
