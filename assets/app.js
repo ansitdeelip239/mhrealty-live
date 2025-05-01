@@ -987,52 +987,101 @@ async function GetAllFeaturedProperty() {
     console.error(error);
   }
 }
+// function renderProperties(data) {
+//   const headingsContainerApi = document.querySelector('.headingsContainerApi');
+//   headingsContainerApi.innerHTML = '';
+//   const totalProperties = data?.data?.propertyModels.length;
+//   // Determine the number of iterations based on the number of properties
+//   const iterations = Math.min(4, totalProperties);
+
+//   for (let i = currentPageIndex; i < currentPageIndex + iterations; i++) {
+//     const indexToShow = i % totalProperties;
+//     const x = data?.data?.propertyModels[indexToShow];
+//     const toggledImage = x.ImageURLType.find(img => img.toggle === true);
+//     headingsContainerApi.innerHTML += `
+//       <div class="col-md-5 popularPropertiesBody" style="
+//         border: 1px solid #D9D9D9;
+//         background: var(--primary-Whitecolor);
+//         display: flex;
+//         flex-wrap: wrap;
+//         padding: 0px;
+//         margin-bottom: 10px;"
+//         onclick="renderPropertiesRedirection(${x.ID},${'true'})">
+//         <div class="col-md-4" style="flex-shrink: 0;padding: 0px;">
+//           <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 100%;" alt="">
+//         </div>
+//         <div class="col-md-8 xyz">
+//           <div class="" style="
+//             color: #231F20;
+//             font-size: 24px;
+//             font-style: normal;
+//             font-weight: 700;
+//             line-height: 28px;
+//             padding-top: 15px;">
+//             ${x.SellerName}
+//             <div class="" style="color: #484848;
+//               font-size: 18px;
+//               font-style: normal;
+//               font-weight: 400;
+//               line-height: 21px; 
+//               padding-top: 10px;">
+//               ${x.ShortDiscription}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     `;
+//   }
+// }
 function renderProperties(data) {
   const headingsContainerApi = document.querySelector('.headingsContainerApi');
   headingsContainerApi.innerHTML = '';
-  const totalProperties = data?.data?.propertyModels.length;
-  // Determine the number of iterations based on the number of properties
-  const iterations = Math.min(4, totalProperties);
+  const totalProperties = data?.data?.propertyModels.length || 0;
+  const propertiesPerPage = 4; // Show 4 properties at a time
+  const startIndex = currentPageIndex * propertiesPerPage;
+  const endIndex = Math.min(startIndex + propertiesPerPage, totalProperties);
 
-  for (let i = currentPageIndex; i < currentPageIndex + iterations; i++) {
-    const indexToShow = i % totalProperties;
-    const x = data?.data?.propertyModels[indexToShow];
+  for (let i = startIndex; i < endIndex; i++) {
+    const x = data?.data?.propertyModels[i];
     const toggledImage = x.ImageURLType.find(img => img.toggle === true);
     headingsContainerApi.innerHTML += `
-      <div class="col-md-5 popularPropertiesBody" style="
-        border: 1px solid #D9D9D9;
-        background: var(--primary-Whitecolor);
-        display: flex;
-        flex-wrap: wrap;
-        padding: 0px;
-        margin-bottom: 10px;"
-        onclick="renderPropertiesRedirection(${x.ID},${'true'})">
-        <div class="col-md-4" style="flex-shrink: 0;padding: 0px;">
-          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 100%;" alt="">
-        </div>
-        <div class="col-md-8 xyz">
-          <div class="" style="
-            color: #231F20;
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 28px;
-            padding-top: 15px;">
-            ${x.SellerName}
-            <div class="" style="color: #484848;
-              font-size: 18px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: 21px; 
-              padding-top: 10px;">
-              ${x.ShortDiscription}
-            </div>
+      <div class="popularPropertiesBody">
+        <div class="image-container">
+          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" alt="">
+          <div class="overlay">
+            <button onclick="renderPropertiesRedirection(${x.ID}, ${'true'})">Click for More</button>
           </div>
+        </div>
+        <div class="xyz">
+          <h3>${x.SellerName}</h3>
+          <p>${x.ShortDiscription || 'No description available'}</p>
         </div>
       </div>
     `;
   }
+
+  // Update button states
+  const prevButton = document.getElementById('prevButton');
+  const nextButton = document.getElementById('nextButton');
+  prevButton.disabled = currentPageIndex === 0;
+  nextButton.disabled = endIndex >= totalProperties;
 }
+
+// Navigation button event listeners
+document.getElementById('prevButton').addEventListener('click', () => {
+  if (currentPageIndex > 0) {
+    currentPageIndex--;
+    renderProperties(data); // Assuming 'data' is available in scope
+  }
+});
+
+document.getElementById('nextButton').addEventListener('click', () => {
+  const totalProperties = data?.data?.propertyModels.length || 0;
+  if ((currentPageIndex + 1) * 4 < totalProperties) {
+    currentPageIndex++;
+    renderProperties(data);
+  }
+});
 
 
 function saveImagesAndVideos(propertyModels) {
