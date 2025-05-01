@@ -1140,97 +1140,41 @@ async function GetAllResaleProperty() {
 function renderProperties1(data) {
   const headingsContainerResaleApi = document.querySelector('.headingsContainerResaleApi');
   headingsContainerResaleApi.innerHTML = '';
+  const totalProperties = data?.data?.propertyModels.length || 0;
+  const propertiesPerPage = 4; // Show 4 properties at a time
+  const startIndex = currentPageIndex1;
+  const endIndex = Math.min(startIndex + propertiesPerPage, totalProperties);
 
-  const totalProperties = data?.data?.propertyModels.length;
-  const start = currentPageIndex1;
-  const end = (currentPageIndex1 + 8) % totalProperties;
-
-  const propertiesToShow = end > start
-    ? data?.data?.propertyModels.slice(start, end)
-    : [...data?.data?.propertyModels.slice(start), ...data?.data?.propertyModels.slice(0, end)];
-
-  if (data?.data?.propertyModels.length <= 8) {
-    // for(z = 0 ; z < propertiesToShow.length; z++){
-    // Repeat the single property to fill the space
-    for (let i = 0; i < data?.data?.propertyModels.length; i++) {
-      const property = propertiesToShow[i];
-      const toggledImage = property?.ImageURLType.find(img => img.toggle === true);
-      const propertyHtml = `
-        <div style="border: 1px solid #D9D9D9;
-                    background: #FFF;
-                    margin-bottom: 20px;object-fit: cover;"
-                    class="popularPropertiesBody"
-                    onclick="renderProperties1Redirection(${property?.ID},${'true'})">
-          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 250px;" alt="">
-          <div style="padding-top: 25px;padding-bottom: 25px;padding-left: 15px;padding-right: 15px;">
-            <div style="color: #231F20;
-                        font-family: 'Nexa Bold';
-                        font-size: 22px;
-                        font-style: normal;
-                        font-weight: 700;
-                        line-height: 26px;
-                        width: 80%;">
-                        ${property.SellerName}
-            </div>
-            <div style="color: #484848;
-                        font-family: 'NexaRegular';
-                        font-size: 16px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: 22px;
-                        margin-top: 10px;">
-                        ${property.ShortDiscription}
-            </div>
+  for (let i = startIndex; i < endIndex; i++) {
+    const x = data?.data?.propertyModels[i];
+    const toggledImage = x.ImageURLType.find(img => img.toggle === true);
+    
+    headingsContainerResaleApi.innerHTML += `
+      <div class="popularPropertiesBody" onclick="renderProperties1Redirection(${x.ID}, true)">
+        <div class="image-container">
+          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" alt="">
+          <div class="overlay">
+            <button>Click for More Info</button>
           </div>
         </div>
-      `;
-      headingsContainerResaleApi.innerHTML += propertyHtml;
-    }
-    // }
+        <div class="xyz">
+          <div class="property-content">
+            <h3>${x.SellerName}</h3>
+            <p class="description">${x.ShortDiscription || 'No description available'}</p>
+            ${x.Price ? `<p class="price">₹${x.Price.toLocaleString()}</p>` : ''}
+            ${x.Location ? `<p class="location">${x.Location}</p>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Update navigation arrows display
+  const ResalePropertyArrow = document.getElementById('ResalePropertyArrow');
+  if (totalProperties <= 4) {
+    ResalePropertyArrow.style.display = 'none';
   } else {
-    for (let i = 0; i < propertiesToShow.length; i += 4) {
-      const rowProperties = propertiesToShow.slice(i, i + 4);
-
-      const rowHtml = rowProperties.map(x => {
-        const toggledImage = x?.ImageURLType.find(img => img.toggle === true);
-
-        return `
-          <div style="border: 1px solid #D9D9D9;
-                      background: #FFF;
-                      width: 298px; margin-bottom: 20px;object-fit: cover;"
-                      class="popularPropertiesBody"
-                      onclick="renderProperties1Redirection(${x?.ID},${'true'})">
-            <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 250px;" alt="">
-            <div style="padding-top: 25px;padding-bottom: 25px;padding-left: 15px;padding-right: 15px;">
-              <div style="color: #231F20;
-                          font-family: 'Nexa Bold';
-                          font-size: 22px;
-                          font-style: normal;
-                          font-weight: 700;
-                          line-height: 26px;
-                          width: 80%;">
-                          ${x.SellerName}
-              </div>
-              <div style="color: #484848;
-                          font-family: 'NexaRegular';
-                          font-size: 16px;
-                          font-style: normal;
-                          font-weight: 400;
-                          line-height: 22px;
-                          margin-top: 10px;">
-                          ${x.ShortDiscription}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      headingsContainerResaleApi.innerHTML += `
-        <div class="popularProperties" style="width: 100%;  display: flex; justify-content: space-evenly;">
-          ${rowHtml}
-        </div>
-      `;
-    }
+    ResalePropertyArrow.style.display = 'block';
   }
 }
 function saveImagesAndVideos1(propertyModels) {
