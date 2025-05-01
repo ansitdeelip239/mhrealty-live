@@ -927,12 +927,16 @@ let currentPageIndex = 0;
 let ListofAll = [];
 async function GetAllFeaturedProperty() {
   try {
-    const response = await fetch(`${apiUrl}/api/v1/partner/GetAllPartnerFeaturedProperty?partnerId=${partnerId}&pageNumber=1&pageSize=500&readyToMove='No'`);
+    const response = await fetch(
+      `${apiUrl}/api/v1/partner/GetAllPartnerFeaturedProperty?partnerId=${partnerId}&pageNumber=1&pageSize=500&readyToMove='No'`
+    );
     const data = await response.json();
     saveImagesAndVideos(data?.data?.propertyModels);
     ListofAll = data?.data?.propertyModels || [];
 
-    const headingsContainerArrows = document.querySelector('.headingsContainerArrows');
+    const headingsContainerArrows = document.querySelector(
+      ".headingsContainerArrows"
+    );
 
     headingsContainerArrows.innerHTML += `<div class="slider-arrows" id="FeaturedPropertyArrow">
       <button class="slider-arrowLeft" id="prevArrow" style="
@@ -953,32 +957,41 @@ async function GetAllFeaturedProperty() {
       </button>
     </div>`;
 
-    const FeaturedPropertyArrow = document.getElementById('FeaturedPropertyArrow');
+    const FeaturedPropertyArrow = document.getElementById(
+      "FeaturedPropertyArrow"
+    );
     if (ListofAll?.length < 5) {
-      FeaturedPropertyArrow.style.display = 'none';
+      FeaturedPropertyArrow.style.display = "none";
     } else {
-      FeaturedPropertyArrow.style.display = 'block';
+      FeaturedPropertyArrow.style.display = "block";
     }
 
-    const nextArrow = document.getElementById('nextArrow');
-    const prevArrow = document.getElementById('prevArrow');
+    const nextArrow = document.getElementById("nextArrow");
+    const prevArrow = document.getElementById("prevArrow");
 
-    // Right arrow click event listener
-    nextArrow.addEventListener('click', () => {
-      currentPageIndex = (currentPageIndex + 4) % data?.data?.propertyModels?.length;
-      renderProperties(data);
-      nextArrow.style.color = '#EE5925';
-      nextArrow.style.borderColor = '#CACACA';
-      prevArrow.style.color = '#CACACA';
+    // Update the next/prev click handlers in GetAllFeaturedProperty()
+    nextArrow.addEventListener("click", () => {
+      const totalProperties = ListofAll.length;
+      currentPageIndex = (currentPageIndex + 4) % totalProperties;
+      if (currentPageIndex >= totalProperties) {
+        currentPageIndex = 0;
+      }
+      renderProperties({ data: { propertyModels: ListofAll } });
+      nextArrow.style.color = "#EE5925";
+      nextArrow.style.borderColor = "#CACACA";
+      prevArrow.style.color = "#CACACA";
     });
 
-    // Left arrow click event listener
-    prevArrow.addEventListener('click', () => {
-      currentPageIndex = (currentPageIndex - 4 + data?.data?.propertyModels?.length) % data?.data?.propertyModels?.length;
-      renderProperties(data);
-      prevArrow.style.color = '#EE5925';
-      prevArrow.style.borderColor = '#CACACA';
-      nextArrow.style.color = '#CACACA';
+    prevArrow.addEventListener("click", () => {
+      const totalProperties = ListofAll.length;
+      currentPageIndex = Math.max(0, currentPageIndex - 4);
+      if (currentPageIndex < 0) {
+        currentPageIndex = Math.floor((totalProperties - 1) / 4) * 4;
+      }
+      renderProperties({ data: { propertyModels: ListofAll } });
+      prevArrow.style.color = "#EE5925";
+      prevArrow.style.borderColor = "#CACACA";
+      nextArrow.style.color = "#CACACA";
     });
 
     // Initial rendering of properties
@@ -987,62 +1000,26 @@ async function GetAllFeaturedProperty() {
     console.error(error);
   }
 }
-// function renderProperties(data) {
-//   const headingsContainerApi = document.querySelector('.headingsContainerApi');
-//   headingsContainerApi.innerHTML = '';
-//   const totalProperties = data?.data?.propertyModels.length;
-//   // Determine the number of iterations based on the number of properties
-//   const iterations = Math.min(4, totalProperties);
-
-//   for (let i = currentPageIndex; i < currentPageIndex + iterations; i++) {
-//     const indexToShow = i % totalProperties;
-//     const x = data?.data?.propertyModels[indexToShow];
-//     const toggledImage = x.ImageURLType.find(img => img.toggle === true);
-//     headingsContainerApi.innerHTML += `
-//       <div class="col-md-5 popularPropertiesBody" style="
-//         border: 1px solid #D9D9D9;
-//         background: var(--primary-Whitecolor);
-//         display: flex;
-//         flex-wrap: wrap;
-//         padding: 0px;
-//         margin-bottom: 10px;"
-//         onclick="renderPropertiesRedirection(${x.ID},${'true'})">
-//         <div class="col-md-4" style="flex-shrink: 0;padding: 0px;">
-//           <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 100%;" alt="">
-//         </div>
-//         <div class="col-md-8 xyz">
-//           <div class="" style="
-//             color: #231F20;
-//             font-size: 24px;
-//             font-style: normal;
-//             font-weight: 700;
-//             line-height: 28px;
-//             padding-top: 15px;">
-//             ${x.SellerName}
-//             <div class="" style="color: #484848;
-//               font-size: 18px;
-//               font-style: normal;
-//               font-weight: 400;
-//               line-height: 21px; 
-//               padding-top: 10px;">
-//               ${x.ShortDiscription}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     `;
-//   }
-// }
 function renderProperties(data) {
   const headingsContainerApi = document.querySelector('.headingsContainerApi');
   headingsContainerApi.innerHTML = '';
-  const totalProperties = data?.data?.propertyModels.length || 0;
+  const totalProperties = data?.data?.propertyModels?.length || 0;
   const propertiesPerPage = 4; // Show 4 properties at a time
-  const startIndex = currentPageIndex * propertiesPerPage;
-  const endIndex = Math.min(startIndex + propertiesPerPage, totalProperties);
-  for (let i = startIndex; i < endIndex; i++) {
+
+  // Ensure currentPageIndex stays within valid range
+  if (currentPageIndex >= totalProperties) {
+    currentPageIndex = 0;
+  } else if (currentPageIndex < 0) {
+    currentPageIndex = Math.max(0, totalProperties - propertiesPerPage);
+  }
+
+  // Calculate which properties to show
+  for (let i = currentPageIndex; i < Math.min(currentPageIndex + propertiesPerPage, totalProperties); i++) {
     const x = data?.data?.propertyModels[i];
+    if (!x) continue; // Skip if property is undefined
+    
     const toggledImage = x.ImageURLType.find(img => img.toggle === true);
+    
     headingsContainerApi.innerHTML += `
       <div class="popularPropertiesBody">
         <div class="image-container">
