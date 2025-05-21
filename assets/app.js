@@ -118,6 +118,7 @@ window.onload = function () {
       then(res => {
         return res.json()
       }).then(data => {
+        // debugger;
         details = data.data;
         const images = JSON.parse(data.data.imageURL);
 
@@ -153,7 +154,7 @@ window.onload = function () {
                 <div class="ButtonTabs" style="display: flex;">
                   <div>
                     <button class="btn btn-success mobileBTN1" data-toggle="modal" data-target="#popupimages"
-                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
+                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Imagesss
                     </button>
                   </div>
                   <div>
@@ -522,6 +523,7 @@ function closepopupimage() {
   document.querySelector("body").setAttribute("style", "overflow:auto");
 }
 function imageslistpopup(index, slider, resale) {
+  // debugger;
   document.querySelector("body").setAttribute("style", "overflow:visible");
   let photos;
   let video;
@@ -537,8 +539,8 @@ function imageslistpopup(index, slider, resale) {
   let imgtype = [];
   let images = [];
   photos.forEach((im) => {
-    if (!imgtype.includes(im.Type)) {
-      imgtype.push(im.Type)
+    if (!imgtype.includes(im.type)) {
+      imgtype.push(im.type)
     }
   })
   for (var i = 0; i < 2; i++) {
@@ -562,7 +564,7 @@ function imageslistpopup(index, slider, resale) {
   //remove image dom
   $('#show-image').empty()
   imgtype.forEach((type) => {
-    if (images[0].Type == type) {
+    if (images[0].type == type) {
       $('#popup-tab').append(`<a class="nav-link" style="color: white;cursor: pointer; border-bottom: 1px solid white;" onclick="imagetabb('${index}','${type}')">${type}</a>`)
     }
     else {
@@ -576,23 +578,24 @@ function imageslistpopup(index, slider, resale) {
   for (var i = 0; i < 2; i++) {
     if (images[i].Type != 'Video') {
       if (i == 0) {
-        $('#show-image').append(`<img class="image-size" src="${images[i].ImageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" + style="margin-left:400px;"><br><span style="position:absolute;top:450px;color: white;z-index: 10;left: 30%;">${images[i].Type}</span>`)
+        $('#show-image').append(`<img class="image-size" src="${images[i].imageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" + style="margin-left:400px;"><br><span style="position:absolute;top:450px;color: white;z-index: 10;left: 30%;">${images[i].type}</span>`)
       }
       else {
         if (images.length > i) {
-          $('#show-image').append(`<img class="ml-4 image-size" src="${images[i].ImageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" + style="filter:blur(2px)"><span style="top:450px;position: absolute;bottom: 0px;color: white;z-index: 10;right: 30%;">${images[i].Type}</span>`)
+          $('#show-image').append(`<img class="ml-4 image-size" src="${images[i].imageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" + style="filter:blur(2px)"><span style="top:450px;position: absolute;bottom: 0px;color: white;z-index: 10;right: 30%;">${images[i].type}</span>`)
         }
 
       }
     }
     else {
       const videoID = youTubeVideoIdExtractor(images[i].imageURL)
-      $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+      $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
 
     }
   }
 }
 function nextimagearrow(propertyindex, imageindex) {
+  // debugger;
   const urlParams = new URLSearchParams(window.location.search);
   const slider = urlParams.get('slid');
   const reSale = urlParams.get('resale');
@@ -608,14 +611,14 @@ function nextimagearrow(propertyindex, imageindex) {
   }
   if (video) {
     let obj = new Object();
-    obj.imageURL = video;
-    obj.Type = 'Video';
+    obj.imageUrl = video;
+    obj.type = 'Video';
     images.push(obj)
   }
   let imgtype = []
   images.forEach((im) => {
-    if (!imgtype.includes(im.Type)) {
-      imgtype.push(im.Type)
+    if (!imgtype.includes(im.type)) {
+      imgtype.push(im.type)
     }
   })
   if (video) {
@@ -638,7 +641,7 @@ function nextimagearrow(propertyindex, imageindex) {
     $('#previous-photo').append(`<span id="next-btn" style="color: white;font-size: 50px;position: absolute;left: 0;top: 40%;cursor: pointer;z-index:100" onclick="nextimagearrow(${propertyindex},${imageindex - 1})"><</span>`)
   }
   imgtype.forEach((type) => {
-    if (images[imageindex]?.Type == type) {
+    if (images[imageindex]?.type == type) {
       $('#popup-tab').append(`<a class="nav-link" style="color: white;cursor: pointer; border-bottom: 1px solid white;" onclick="imagetabb('${propertyindex}','${type}')">${type}</a>`)
     }
     else {
@@ -647,35 +650,35 @@ function nextimagearrow(propertyindex, imageindex) {
   })
   if (imageindex > 0) {
     for (var i = imageindex - 1; i < imageindex + 2; i++) {
-      if (images[i]?.Type !== 'Video') {
+      if (images[i]?.type !== 'Video') {
         if (i == imageindex) {
-          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.ImageUrl}" class="image-size" style="width:100%" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.imageUrl}" class="image-size" style="width:100%" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].type}</span></div>`)
         }
         else {
-          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.ImageUrl}" class="image-size"  style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.imageUrl}" class="image-size"  style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].type}</span></div>`)
         }
       }
       else {
         const videoID = youTubeVideoIdExtractor(images[i]?.imageURL)
-        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
       }
     }
   }
   else {
     for (var i = imageindex; i < imageindex + 2; i++) {
-      if (images[i]?.Type !== 'Video') {
+      if (images[i]?.type !== 'Video') {
         if (i == imageindex) {
-          $('#show-image').append(`<img  src="${images[i]?.ImageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + class="image-size" style="margin-left:400px;">
-          <span style="position: absolute;top:450px;color: white;z-index: 10;left: 40%;">${images[i]?.Type}</span>`)
+          $('#show-image').append(`<img  src="${images[i]?.imageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + class="image-size" style="margin-left:400px;">
+          <span style="position: absolute;top:450px;color: white;z-index: 10;left: 40%;">${images[i]?.type}</span>`)
         }
         else {
-          $('#show-image').append(`<img  src="${images[i]?.ImageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + class="image-size ml-4" style="filter:blur(2px)">
-        <span style="position: absolute;top:450px;color: white;z-index: 10;right: 20%;">${images[i]?.Type}</span>`)
+          $('#show-image').append(`<img  src="${images[i]?.imageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + class="image-size ml-4" style="filter:blur(2px)">
+        <span style="position: absolute;top:450px;color: white;z-index: 10;right: 20%;">${images[i]?.type}</span>`)
         }
       }
       else {
         const videoID = youTubeVideoIdExtractor(images[i]?.imageURL)
-        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
       }
     }
   }
@@ -730,6 +733,8 @@ function imagetabb(propindex, type) {
     $('#previous-photo').append(`<span id="next-btn" style="color: white;font-size: 50px;position: absolute;left: 0;top: 40%;cursor: pointer;z-index:100" onclick="nextimagearrow(${propindex},${index - 1})"><</span>`)
   }
   //tab
+  console.log('********88', imgtype, type);
+  
   imgtype.forEach((type1) => {
     if (type == type1) {
       $('#popup-tab').append(`<a class="nav-link" style="color: white;cursor: pointer; border-bottom: 1px solid white;" onclick="imagetabb('${propindex}','${type1}')">${type1}</a>`)
@@ -746,31 +751,31 @@ function imagetabb(propindex, type) {
       for (var i = index; i < index + 2; i++) {
         if (images[i].Type != 'Video') {
           if (i == 0) {
-            $('#show-image').append(`<div class="col-4"></div><div class="col-4 "><img  src="${images[i].ImageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" style="width:100%" class="image-size"></div><span style="position: absolute;top: 440px;color: white;z-index: 10;left: 40%;">${images[i].Type}</span>`)
+            $('#show-image').append(`<div class="col-4"></div><div class="col-4 "><img  src="${images[i].imageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" style="width:100%" class="image-size"></div><span style="position: absolute;top: 440px;color: white;z-index: 10;left: 40%;">${images[i].type}</span>`)
           }
           else {
-            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].ImageUrl}" style="width:100%;filter:blur(2px);"  class="image-size"+ onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" +><span style="position: absolute;color: white;z-index: 10;top: 440px;left:40%">${images[i].Type}</span></div>`)
+            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].imageUrl}" style="width:100%;filter:blur(2px);"  class="image-size"+ onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" +><span style="position: absolute;color: white;z-index: 10;top: 440px;left:40%">${images[i].type}</span></div>`)
           }
         }
         else {
           const videoID = youTubeVideoIdExtractor(video)
-          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 400px;height: 400px" allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 400px;height: 400px" allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
         }
       }
     }
     else {
       for (var i = index - 1; i < index + 2; i++) {
-        if (images[i].Type != 'Video') {
+        if (images[i].type != 'Video') {
           if (i == index) {
-            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].ImageUrl}" class="image-size" style="width:100%;" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" +><span style="position: absolute;top:350px;left:40%;color: white;z-index: 10">${images[i].Type}</span></div>`)
+            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].imageUrl}" class="image-size" style="width:100%;" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" +><span style="position: absolute;top:350px;left:40%;color: white;z-index: 10">${images[i].type}</span></div>`)
           }
           else {
-            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].ImageUrl}" class="image-size" style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" +><span style="position: absolute;color: white;z-index: 10;top:350px;left:40%;">${images[i].Type}</span></div>`)
+            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].imageUrl}" class="image-size" style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" +><span style="position: absolute;color: white;z-index: 10;top:350px;left:40%;">${images[i].type}</span></div>`)
           }
         }
         else {
           const videoID = youTubeVideoIdExtractor(video)
-          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%;" class="image-size" allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%;" class="image-size" allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
         }
       }
     }
@@ -822,6 +827,7 @@ function reset() {
 }
 
  function youTubeVideoIdExtractor(url) {
+  debugger;
   const params = url
   const splitedURL = params.split('/')
   let videoID = splitedURL[splitedURL.length - 1]
@@ -1055,7 +1061,9 @@ function saveImagesAndVideos(properties) {
   });
 }
 function renderPropertiesRedirection(Id, slider) {
-  const propertyIndex = ListofAll.findIndex(property => property.ID === Id);
+  
+  const propertyIndex = ListofAll.findIndex(property => property.id === Id);
+  console.log(Id, slider, ListofAll);
   window.open(`./property_details.html?pro=${Id}&in=${propertyIndex}&slid=${slider}`, '_blank');
 }
 let currentPageIndex1 = 0;
