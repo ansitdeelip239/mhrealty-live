@@ -119,10 +119,11 @@ window.onload = function () {
         return res.json()
       }).then(data => {
         details = data.data;
+        const images = JSON.parse(data.data.imageURL);
 
         // details.ImageURL = details.ImageURL.split(",");
-        document.getElementById("store-images").value = details.ImageURLType;
-        let videoID = data.data.VideoURL ? youTubeVideoIdExtractor(data.data.VideoURL) : null
+        document.getElementById("store-images").value = details.imageURL;
+        let videoID = data.data.videoURL ? youTubeVideoIdExtractor(data.data.videoURL) : null
 
         let TagList = '';
         if (details.Tags && details.Tags.length > 0) {
@@ -130,11 +131,13 @@ window.onload = function () {
             TagList += tagObj.Tag + ' &nbsp;' + ' &nbsp;';
           });
         }
-
-        const toggledImage = data.data.ImageURLType.find(img => img.toggle === true);
-
+        const toggledImage = images.find(img => img.toggle === true);
+        // console.log(toggledImage);
+        
+       
+        
         if (slider === "true") {
-          if (details.ImageURLType.length > 0) {
+          if (images.length > 0) {
             $("#main-card").html(`
             <div>
             ${videoID ? `<iframe width="300" height="400" src=${videoID} style="width:100%" title="YouTube video player"
@@ -143,7 +146,7 @@ window.onload = function () {
         
             <div class="row">
               <div class="col-md-4">
-                <img src=${toggledImage ? toggledImage.ImageUrl : details.ImageURLType[0].ImageUrl}
+                <img src=${toggledImage ? toggledImage.imageUrl : images[0].imageUrl}
                   style="height: 200px;width:100%;cursor:zoom-in" data-toggle="modal" data-target="#popupimages"
                   onclick="imageslistpopup(${index},${slider},${reSale})">
         
@@ -162,7 +165,7 @@ window.onload = function () {
               </div>
         
               <div class="col-md-8 float-left row" style="margin-bottom: 120px;font-size: 15px;">
-                <div class="col-md-12" style=" text-align: justify;">${data.data.Discription}
+                <div class="col-md-12" style=" text-align: justify;">${data.data.longDescription}
                 </div>
         
                 <div class="col-md-12" style="margin-top: 20px;">
@@ -170,7 +173,7 @@ window.onload = function () {
                   </div>
                 </div>
         
-                ${data.data.Discription.length > 1500 ? `
+                ${data.data.longDescription.length > 1500 ? `
                 <div class="row col-md-12">
                   <button class="btn btn-success mobileBTN1 mobileBTN2edit1" data-toggle="modal" data-target="#popupimages"
                     onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
