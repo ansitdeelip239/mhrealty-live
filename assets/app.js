@@ -3,7 +3,7 @@ var ConstantIP = '';
 var ConstantFeaturedProperty = '';
 var constantVideoID = '';
 var partnerId = 'info@mhrealty.in';
-var domain='munatech.com'
+var domain='mhrealty.in';
 
 // Execute after the DOM is loaded
 document.addEventListener('DOMContentLoaded', loadNavbar);
@@ -342,7 +342,7 @@ function sendMessageGetinTouchForm() {
 
   if (mybody?.email !== '' && mybody?.message !== '' && mybody?.name !== '' && mybody?.phone !== '' && mybody?.phone?.length == 10 && isvalid) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", `${apiUrl}partners/partner-getintouch`);
+    xhr.open("POST", `${apiUrl}properties/GetInTouch`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
     xhr.send(JSON.stringify(mybody));
@@ -350,7 +350,7 @@ function sendMessageGetinTouchForm() {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
           var json_data = JSON.parse(xhr.responseText);
-          if (json_data.Success) {
+          if (json_data.success) {
             document.getElementById("valid-response-getintoucg").style.display = "flex";
             document.forms["getinTouchForm"].reset();
             grecaptcha.reset();
