@@ -52,8 +52,10 @@ function setActiveClass() {
 // Live---------
 // let apiUrl = 'https://dncrpropertyapi.azurewebsites.net/'
 // let apiUrl = 'https://freehostingweb.bsite.net/'
+// let apiUrl = "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
+
 let apiUrl =
-  "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
+  "https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/";
 
 // Dev----------
 // let apiUrl = 'https://devdncrbe.azurewebsites.net/'
