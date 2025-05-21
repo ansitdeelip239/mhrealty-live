@@ -50,7 +50,9 @@ function setActiveClass() {
 
 // Live---------
 // let apiUrl = 'https://dncrpropertyapi.azurewebsites.net/'
-let apiUrl = 'https://freehostingweb.bsite.net/'
+// let apiUrl = 'https://freehostingweb.bsite.net/'
+let apiUrl =
+  "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
 
 // Dev----------
 // let apiUrl = 'https://devdncrbe.azurewebsites.net/'
@@ -928,17 +930,20 @@ let ListofAll = [];
 async function GetAllFeaturedProperty() {
   try {
     const response = await fetch(
-      `${apiUrl}/api/v1/partner/GetAllPartnerFeaturedProperty?partnerId=${partnerId}&pageNumber=1&pageSize=500&readyToMove='No'`
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500`
     );
     const data = await response.json();
-    saveImagesAndVideos(data?.data?.propertyModels);
-    ListofAll = data?.data?.propertyModels || [];
+    
+    // Update to use the new response structure
+    const properties = data?.data?.properties || [];
+    saveImagesAndVideos(properties);
+    ListofAll = properties;
 
     const headingsContainerArrows = document.querySelector(
       ".headingsContainerArrows"
     );
 
-    headingsContainerArrows.innerHTML += `<div class="slider-arrows" id="FeaturedPropertyArrow">
+    headingsContainerArrows.innerHTML = `<div class="slider-arrows" id="FeaturedPropertyArrow">
       <button class="slider-arrowLeft" id="prevArrow" style="
       background: white;
       border-radius: 50%;
@@ -957,10 +962,8 @@ async function GetAllFeaturedProperty() {
       </button>
     </div>`;
 
-    const FeaturedPropertyArrow = document.getElementById(
-      "FeaturedPropertyArrow"
-    );
-    if (ListofAll?.length < 5) {
+    const FeaturedPropertyArrow = document.getElementById("FeaturedPropertyArrow");
+    if (properties.length < 5) {
       FeaturedPropertyArrow.style.display = "none";
     } else {
       FeaturedPropertyArrow.style.display = "block";
@@ -969,81 +972,81 @@ async function GetAllFeaturedProperty() {
     const nextArrow = document.getElementById("nextArrow");
     const prevArrow = document.getElementById("prevArrow");
 
-    // Update the next/prev click handlers in GetAllFeaturedProperty()
     nextArrow.addEventListener("click", () => {
-      const totalProperties = ListofAll.length;
+      const totalProperties = properties.length;
       currentPageIndex = (currentPageIndex + 4) % totalProperties;
       if (currentPageIndex >= totalProperties) {
         currentPageIndex = 0;
       }
-      renderProperties({ data: { propertyModels: ListofAll } });
+      renderProperties({ data: { properties } });
       nextArrow.style.color = "#EE5925";
       nextArrow.style.borderColor = "#CACACA";
       prevArrow.style.color = "#CACACA";
     });
 
     prevArrow.addEventListener("click", () => {
-      const totalProperties = ListofAll.length;
+      const totalProperties = properties.length;
       currentPageIndex = Math.max(0, currentPageIndex - 4);
       if (currentPageIndex < 0) {
         currentPageIndex = Math.floor((totalProperties - 1) / 4) * 4;
       }
-      renderProperties({ data: { propertyModels: ListofAll } });
+      renderProperties({ data: { properties } });
       prevArrow.style.color = "#EE5925";
       prevArrow.style.borderColor = "#CACACA";
       nextArrow.style.color = "#CACACA";
     });
 
-    // Initial rendering of properties
-    renderProperties(data);
+    renderProperties({ data: { properties } });
   } catch (error) {
     console.error(error);
   }
 }
 function renderProperties(data) {
-  const headingsContainerApi = document.querySelector('.headingsContainerApi');
-  headingsContainerApi.innerHTML = '';
-  const totalProperties = data?.data?.propertyModels?.length || 0;
-  const propertiesPerPage = 4; // Show 4 properties at a time
+  const headingsContainerApi = document.querySelector(".headingsContainerApi");
+  const properties = data?.data?.properties || [];
 
-  // Ensure currentPageIndex stays within valid range
-  if (currentPageIndex >= totalProperties) {
-    currentPageIndex = 0;
-  } else if (currentPageIndex < 0) {
-    currentPageIndex = Math.max(0, totalProperties - propertiesPerPage);
-  }
+  headingsContainerApi.innerHTML = '<div class="properties-grid">';
 
-  // Calculate which properties to show
-  for (let i = currentPageIndex; i < Math.min(currentPageIndex + propertiesPerPage, totalProperties); i++) {
-    const x = data?.data?.propertyModels[i];
-    if (!x) continue; // Skip if property is undefined
-    
-    const toggledImage = x.ImageURLType.find(img => img.toggle === true);
-    
-    headingsContainerApi.innerHTML += `
+  properties.forEach((property) => {
+    const images = JSON.parse(property.imageURL);
+    const toggledImage = images.find((img) => img.toggle === true);
+    const defaultImage = "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
+
+    // Create a temporary div to decode HTML entities and strip tags
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = property.shortDescription;
+    const cleanDescription = tempDiv.textContent || tempDiv.innerText;
+
+    headingsContainerApi.querySelector(".properties-grid").innerHTML += `
       <div class="popularPropertiesBody">
         <div class="image-container">
-          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" alt="">
+          <img src="${toggledImage ? toggledImage.imageUrl : defaultImage}" alt="${property.propertyName}">
           <div class="overlay">
-            <button onclick="renderPropertiesRedirection(${x.ID}, ${'true'})">Click for More Info</button>
+            <button onclick="renderPropertiesRedirection(${property.id}, true)">Click for More Info</button>
           </div>
         </div>
         <div class="xyz">
-          <h3>${x.SellerName}</h3>
-          <p>${x.ShortDiscription || 'No description available'}</p>
+          <h3>${property.propertyName}</h3>
+          <div class="property-description">${cleanDescription}</div>
+          <div class="property-details">
+            <p class="price">₹${property.price.toLocaleString()}</p>
+            <p class="location">${property.location}</p>
+            <p class="type">${property.propertyDetails?.bhkType || ""}</p>
+            <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>
+          </div>
         </div>
       </div>
     `;
-  }
+  });
+
+  headingsContainerApi.innerHTML += '</div>';
 }
-function saveImagesAndVideos(propertyModels) {
-  let i = 0;
-  propertyModels.forEach(x => {
-    let raw = x?.ImageURLType;
-    localStorage.setItem(`imageSlider${i}`, JSON.stringify(raw));
-    localStorage.setItem(`videoSlider${i}`, x.VideoURL);
-    i++;
-  })
+function saveImagesAndVideos(properties) {
+  properties.forEach((property, i) => {
+    const images = JSON.parse(property.imageURL);
+    localStorage.setItem(`imageSlider${i}`, JSON.stringify(images));
+    localStorage.setItem(`videoSlider${i}`, property.videoURL || "");
+  });
 }
 function renderPropertiesRedirection(Id, slider) {
   const propertyIndex = ListofAll.findIndex(property => property.ID === Id);
@@ -1053,106 +1056,68 @@ let currentPageIndex1 = 0;
 let ListofAll1 = [];
 async function GetAllResaleProperty() {
   try {
-    const response = await fetch(`${apiUrl}/api/v1/partner/GetAllPartnerFeaturedProperty?partnerId=${partnerId}&pageNumber=1&pageSize=500&readyToMove=Yes`);
+    const response = await fetch(
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500`
+    );
     const data = await response.json();
-    saveImagesAndVideos1(data?.data?.propertyModels);
-    ListofAll1 = data?.data?.propertyModels || [];
+    
+    // Use the same properties array for both sections
+    const properties = data?.data?.properties || [];
+    saveImagesAndVideos1(properties);
+    ListofAll1 = properties;
 
-    const headingsContainerResaleArrows = document.querySelector('.headingsContainerResaleArrows');
-
-    headingsContainerResaleArrows.innerHTML += `<div class="slider-arrows" id="ResalePropertyArrow">
-      <button class="slider-arrow" id="prevArrow1" style="
-       background: white;
-       border-radius: 50%;
-       border: 1px solid #CACACA;
-       font-size: 30px;
-       padding: 5px 16px 8px 15px;
-       color: #CACACA;"">&lt;
-      </button>
-      <button class="slider-arrow" id="nextArrow1" style="
-        background: white;
-        border-radius: 50%;
-        border: 1px solid #CACACA;
-        font-size: 30px;
-        padding: 5px 16px 8px 15px;
-        color: #CACACA;"">&gt;
-      </button>
-    </div>`;
-
-    const ResalePropertyArrow = document.getElementById('ResalePropertyArrow');
-    if (ListofAll1?.length < 9) {
-      ResalePropertyArrow.style.display = 'none';
-    } else {
-      ResalePropertyArrow.style.display = 'block';
-    }
-
-    const nextArrow1 = document.getElementById('nextArrow1');
-    const prevArrow1 = document.getElementById('prevArrow1');
-
-    // Right arrow click event listener
-    nextArrow1.addEventListener('click', () => {
-      const totalProperties = data?.data?.propertyModels.length;
-      currentPageIndex1 = (currentPageIndex1 + 8) % totalProperties;
-      renderProperties1(data);
-      nextArrow1.style.color = '#EE5925';
-      nextArrow1.style.borderColor = '#CACACA';
-      prevArrow1.style.color = '#CACACA';
-    });
-
-    // Left arrow click event listener
-    prevArrow1.addEventListener('click', () => {
-      const totalProperties = data?.data?.propertyModels.length;
-      currentPageIndex1 = (currentPageIndex1 - 8 + totalProperties) % totalProperties;
-      renderProperties1(data);
-      prevArrow1.style.color = '#EE5925';
-      prevArrow1.style.borderColor = '#CACACA';
-      nextArrow1.style.color = '#CACACA';
-    });
-    // Initial rendering of properties
-    renderProperties1(data);
+    renderProperties1({ data: { properties } });
   } catch (error) {
     console.error(error);
   }
 }
-function renderProperties1(data) {
-  const headingsContainerResaleApi = document.querySelector('.headingsContainerResaleApi');
-  headingsContainerResaleApi.innerHTML = '';
-  const totalProperties = data?.data?.propertyModels.length || 0;
-  const propertiesPerPage = 4; // Show 4 properties at a time
-  const startIndex = currentPageIndex1;
-  const endIndex = Math.min(startIndex + propertiesPerPage, totalProperties);
 
-  for (let i = startIndex; i < endIndex; i++) {
-    const x = data?.data?.propertyModels[i];
-    const toggledImage = x.ImageURLType.find(img => img.toggle === true);
-    
-    headingsContainerResaleApi.innerHTML += `
-      <div class="popularPropertiesBody" onclick="renderProperties1Redirection(${x.ID}, true)">
+function renderProperties1(data) {
+  const headingsContainerResaleApi = document.querySelector(
+    ".headingsContainerResaleApi"
+  );
+  const properties = data?.data?.properties || [];
+
+  headingsContainerResaleApi.innerHTML = '<div class="properties-grid">';
+
+  properties.forEach((property) => {
+    const images = JSON.parse(property.imageURL);
+    const toggledImage = images.find((img) => img.toggle === true);
+    const defaultImage =
+      "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
+
+    // Create temporary div to decode HTML entities and strip tags
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = property.shortDescription;
+    const cleanDescription = tempDiv.textContent || tempDiv.innerText;
+
+    headingsContainerResaleApi.querySelector(".properties-grid").innerHTML += `
+      <div class="popularPropertiesBody">
         <div class="image-container">
-          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" alt="">
+          <img src="${
+            toggledImage ? toggledImage.imageUrl : defaultImage
+          }" alt="${property.propertyName}">
           <div class="overlay">
-            <button>Click for More Info</button>
+            <button onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">Click for More Info</button>
           </div>
         </div>
         <div class="xyz">
-          <div class="property-content">
-            <h3>${x.SellerName}</h3>
-            <p class="description">${x.ShortDiscription || 'No description available'}</p>
-            ${x.Price ? `<p class="price">₹${x.Price.toLocaleString()}</p>` : ''}
-            ${x.Location ? `<p class="location">${x.Location}</p>` : ''}
+          <h3>${property.propertyName}</h3>
+          <div class="property-description">${cleanDescription}</div>
+          <div class="property-details">
+            <p class="price">₹${property.price.toLocaleString()}</p>
+            <p class="location">${property.location}</p>
+            <p class="type">${property.propertyDetails?.bhkType || ""}</p>
+            <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>
           </div>
         </div>
       </div>
     `;
-  }
+  });
 
-  // Update navigation arrows display
-  const ResalePropertyArrow = document.getElementById('ResalePropertyArrow');
-  if (totalProperties <= 4) {
-    ResalePropertyArrow.style.display = 'none';
-  } else {
-    ResalePropertyArrow.style.display = 'block';
-  }
+  headingsContainerResaleApi.innerHTML += "</div>";
 }
 function saveImagesAndVideos1(propertyModels) {
   let i = 0;

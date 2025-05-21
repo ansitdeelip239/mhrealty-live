@@ -1,30 +1,47 @@
-.headingsContainerApi {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+/* Common styles for both property sections */
+.headingsContainerApi,
+.headingsContainerResaleApi {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 20px;
-  background: #f5f5f5;
 }
-.popularPropertiesBody, .resalePropertiesBody {
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns */
+  gap: 30px;
+  margin: 0 auto;
+}
+
+.popularPropertiesBody, 
+.resalePropertiesBody {
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   cursor: pointer;
   display: flex;
-  flex-direction: row;
-  height: 220px;
+  flex-direction: column; /* Changed to column layout */
+  height: 100%; /* Changed to fill full height */
   position: relative;
   animation: slideIn 0.5s ease-out;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #E5E5E5;
   margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.popularPropertiesBody:hover,
+.resalePropertiesBody:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
 .popularPropertiesBody:hover .overlay, .resalePropertiesBody:hover .overlay {
   opacity: 1;
 }
 .image-container {
-  width: 40%;
-  height: 100%;
+  width: 100%; /* Changed from 40% */
+  height: 250px; /* Fixed height for image */
   position: relative;
 }
 .image-container img {
@@ -38,7 +55,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s ease;
   display: flex;
@@ -49,11 +66,14 @@
   background: #00c4cc;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 24px;
+  border-radius: 6px;
   font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .overlay button:hover {
   background: #009da3;
@@ -82,18 +102,20 @@
   font-weight: 700;
 }
 .xyz {
-  width: 60%;
-  padding: 15px;
+  width: 100%; /* Changed from 60% */
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
 }
 .xyz h3 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
-  margin: 0;
   color: #333;
-  line-height: 20px;
+  margin: 0;
+  line-height: 1.4;
+  /* Remove HTML tags from text */
+  white-space: pre-line;
 }
 .xyz .location {
   font-size: 14px;
@@ -140,6 +162,36 @@
 .property-content .location {
   color: #666;
   font-size: 14px;
+}
+.property-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Remove HTML tags from text */
+  white-space: pre-line;
+}
+.property-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+.property-details p {
+  margin: 0;
+  padding: 5px 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.price {
+  color: #00c4cc !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
 }
 .navigation-buttons {
   display: flex;
@@ -196,8 +248,16 @@
     transform: translateY(0);
   }
 }
+@media (max-width: 1200px) {
+  .headingsContainerApi,
+  .headingsContainerResaleApi {
+    grid-template-columns: 1fr 1fr;
+    padding: 15px;
+  }
+}
 @media (max-width: 768px) {
-  .headingsContainerApi {
+  .headingsContainerApi,
+  .headingsContainerResaleApi {
     grid-template-columns: 1fr;
   }
   .popularPropertiesBody, .resalePropertiesBody {
@@ -210,6 +270,7 @@
   }
   .xyz {
     width: 100%;
+    padding: 15px;
   }
   .property-content h3 {
     font-size: 20px;
@@ -219,11 +280,29 @@
   }
 }
 
-/* Add these new styles for the resale properties section */
-.headingsContainerResaleApi {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  padding: 20px;
-  background: #f5f5f5;
+/* Responsive Layout */
+@media (max-width: 992px) {
+  .headingsContainerApi,
+  .headingsContainerResaleApi {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+  .properties-grid {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+  }
+  
+  .popularPropertiesBody, 
+  .resalePropertiesBody {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+/* Remove the odd number property handling since we want strict 2-column layout */
+@media (min-width: 993px) {
+  .popularPropertiesBody,
+  .resalePropertiesBody {
+    max-width: none;
+    margin: 0;
+  }
 }
