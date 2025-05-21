@@ -3,6 +3,7 @@ var ConstantIP = '';
 var ConstantFeaturedProperty = '';
 var constantVideoID = '';
 var partnerId = 'info@mhrealty.in';
+var domain='munatech.com'
 
 // Execute after the DOM is loaded
 document.addEventListener('DOMContentLoaded', loadNavbar);
@@ -111,7 +112,7 @@ window.onload = function () {
 
   if (id) {
     var details;
-    fetch(`${apiUrl}/api/v1/partner/getPartnerPropertyByid?id=${id}`).
+    fetch(`${apiUrl}partners/properties/${id}`).
       then(res => {
         return res.json()
       }).then(data => {
@@ -303,13 +304,13 @@ function sendMessageGetinTouchForm() {
   mobile = document.forms["getinTouchForm"]["getinTouchFormmobile"].value;
 
   var mybody = {
-    Email: emailaddress,
-    Message: message,
-    Name: name,
-    Subject: subject,
-    Phone: mobile,
-    PartnerId: partnerId
-  }
+    email: emailaddress,
+    message: message,
+    name: name,
+    subject: subject,
+    phone: mobile,
+    domain: domain,
+  };
   if (message == '') {
     document.getElementById("message-req-getintouch").style.display = "block";
   }
@@ -332,11 +333,11 @@ function sendMessageGetinTouchForm() {
     }
   }
   const reg = /\S+@\S+\.\S+/;
-  var isvalid = reg.test(mybody?.Email);
+  var isvalid = reg.test(mybody?.email);
 
-  if (mybody?.Email !== '' && mybody?.Message !== '' && mybody?.Name !== '' && mybody?.Phone !== '' && mybody?.Phone?.length == 10 && isvalid) {
+  if (mybody?.email !== '' && mybody?.message !== '' && mybody?.name !== '' && mybody?.phone !== '' && mybody?.phone?.length == 10 && isvalid) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", `${apiUrl}/api/v1/partner/PartnerGetinTouch`);
+    xhr.open("POST", `${apiUrl}partners/partner-getintouch`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
     xhr.send(JSON.stringify(mybody));
@@ -1184,12 +1185,12 @@ function imgSliderFeedback() {
 }
 async function GetAllFeedback() {
   try {
-    const response = await fetch(`${apiUrl}/api/v1/partner/PartnerCustomerTestimonial?partnerId=${partnerId}&pageNumber=1&pageSize=100&isWebsite=true`);
+    const response = await fetch(`${apiUrl}testimonials/by-createdby?createdBy=info@mhrealty.in&pageNumber=1&pageSize=100&isWebsite=true`);
     const data = await response.json();
     let i = 0;
-    data?.data?.CustomerTestimonialModels.forEach((x) => {
+    data?.data?.testimonials.forEach((x) => {
       i++;
-      let videoID = x?.VideoURL ? youTubeVideoIdExtractor(x?.VideoURL) : null;
+      let videoID = x?.videoURL ? youTubeVideoIdExtractor(x?.VideoURL) : null;
       if (x?.Status !== 3) {
         if (x?.Video) {
           $("#your-class-feedback").append(`
@@ -1205,7 +1206,7 @@ async function GetAllFeedback() {
                 font-style: normal;
                 font-weight: 400;
                 line-height: normal;">
-                ${x?.CustomerName}
+                ${x?.customerName}
               </span>
             </div>
           </div>
@@ -1221,18 +1222,22 @@ async function GetAllFeedback() {
               line-height: 28px;
               padding: 0px 50px 50px 40px;
               text-align: justify;">
-              ${x?.FeedbackText ? x?.FeedbackText : ''}
+              ${x?.feedbackText ? x?.feedbackText : ""}
             </div>
             <hr style="border-top: 1px solid #D4D4D4; width: 80%;">
             <div class="feedbackImg feedbackImgNewCSS row" style="display: flex; align-items: center; justify-content: space-around; padding: 0px 0px 10px 40px;">
               <div class="col-md-2" style="text-align: center;">
-                <span class="feedbackImgBody" style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; display: inline-block;">
-                  <img src="${x?.ImageURL ? x?.ImageURL : 'https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/man.webp'}" alt="" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" >
+                <span class="feedbackImgBody" style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; display: inline-block;">
+                  <img src="${
+                    x?.imageURL
+                      ? x?.imageURL
+                      : "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/man.webp"
+                  }" alt="" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" >
                 </span>
               </div>
               <div class="col-md-10 feedbackImgNewCSS" style="text-align: left;">
                 <span style="color: #2B2B2B; font-family: Nexa-Bold; font-size: 22px; font-style: normal; font-weight: 400; line-height: normal;">
-                ${x?.CustomerName.replace(/ - /, '<br>')}
+                ${x?.customerName.replace(/ - /, "<br>")}
                 </span>
                 </span>
               </div>
