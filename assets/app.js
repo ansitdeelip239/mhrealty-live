@@ -154,7 +154,7 @@ window.onload = function () {
                 <div class="ButtonTabs" style="display: flex;">
                   <div>
                     <button class="btn btn-success mobileBTN1" data-toggle="modal" data-target="#popupimages"
-                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Imagesss
+                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
                     </button>
                   </div>
                   <div>
