@@ -1029,7 +1029,7 @@ function renderProperties(data) {
           <h3>${property.propertyName}</h3>
           <div class="property-description">${cleanDescription}</div>
           <div class="property-details">
-            <p class="price">₹${property.price.toLocaleString()}</p>
+           
             <p class="location">${property.location}</p>
             <p class="type">${property.propertyDetails?.bhkType || ""}</p>
             <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>
@@ -1107,7 +1107,6 @@ function renderProperties1(data) {
           <h3>${property.propertyName}</h3>
           <div class="property-description">${cleanDescription}</div>
           <div class="property-details">
-            <p class="price">₹${property.price.toLocaleString()}</p>
             <p class="location">${property.location}</p>
             <p class="type">${property.propertyDetails?.bhkType || ""}</p>
             <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>

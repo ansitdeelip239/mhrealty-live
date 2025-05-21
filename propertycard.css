@@ -8,9 +8,10 @@
 
 .properties-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns */
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
   gap: 30px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 .popularPropertiesBody, 
@@ -21,8 +22,8 @@
   overflow: hidden;
   cursor: pointer;
   display: flex;
-  flex-direction: column; /* Changed to column layout */
-  height: 100%; /* Changed to fill full height */
+  flex-direction: row; /* Changed to row to place image on left */
+  height: 300px; /* Fixed height for consistency */
   position: relative;
   animation: slideIn 0.5s ease-out;
   border: 1px solid #E5E5E5;
@@ -40,8 +41,8 @@
   opacity: 1;
 }
 .image-container {
-  width: 100%; /* Changed from 40% */
-  height: 250px; /* Fixed height for image */
+  width: 40%; /* Image takes 40% of card width */
+  height: 100%;
   position: relative;
 }
 .image-container img {
@@ -102,14 +103,14 @@
   font-weight: 700;
 }
 .xyz {
-  width: 100%; /* Changed from 60% */
+  width: 60%; /* Content takes 60% of card width */
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 .xyz h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: #333;
   margin: 0;
@@ -169,7 +170,7 @@
   line-height: 1.6;
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   /* Remove HTML tags from text */
@@ -178,19 +179,19 @@
 .property-details {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: auto; /* Push details to bottom */
 }
 .property-details p {
   margin: 0;
-  padding: 5px 12px;
+  padding: 5px 10px;
   background: #f5f5f5;
   border-radius: 4px;
   font-size: 14px;
 }
 .price {
   color: #00c4cc !important;
-  font-weight: 700 !important;
+  font-weight: bold;
   font-size: 18px !important;
 }
 .navigation-buttons {
@@ -253,6 +254,14 @@
   .headingsContainerResaleApi {
     grid-template-columns: 1fr 1fr;
     padding: 15px;
+  }
+  .properties-grid {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+    max-width: 800px;
+  }
+  
+  .popularPropertiesBody {
+    margin: 0 auto;
   }
 }
 @media (max-width: 768px) {
