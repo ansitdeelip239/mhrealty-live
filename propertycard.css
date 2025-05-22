@@ -10,7 +10,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Two columns */
   gap: 30px;
-  margin: 0 auto;
+  max-width: 100%;
+    margin: 0 auto;
   padding: 20px;
 }
 

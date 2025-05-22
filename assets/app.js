@@ -53,12 +53,11 @@ function setActiveClass() {
 // let apiUrl = 'https://dncrpropertyapi.azurewebsites.net/'
 // let apiUrl = 'https://freehostingweb.bsite.net/'
 // let apiUrl = "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
-
-let apiUrl =
-  "https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/";
+// Live
+let apiUrl ="https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
 
 // Dev----------
-// let apiUrl = 'https://devdncrbe.azurewebsites.net/'
+// let apiUrl = 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/'
 // *********************************************************
 
 // function urlRedirection(token) {
@@ -947,8 +946,6 @@ async function GetAllFeaturedProperty() {
       `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`
     );
     const data = await response.json();
-    
-    // Update to use the new response structure
     const properties = data?.data?.properties || [];
     saveImagesAndVideos(properties);
     ListofAll = properties;
@@ -957,58 +954,32 @@ async function GetAllFeaturedProperty() {
       ".headingsContainerArrows"
     );
 
-    headingsContainerArrows.innerHTML = `<div class="slider-arrows" id="FeaturedPropertyArrow">
-      <button class="slider-arrowLeft" id="prevArrow" style="
-      background: white;
-      border-radius: 50%;
-      border: 1px solid #CACACA;
-      font-size: 30px;
-      padding: 5px 16px 8px 15px;
-      color: #CACACA;">&lt;
-      </button>
-      <button class="slider-arrowRight" id="nextArrow" style="
-      background: white;
-      border-radius: 50%;
-      border: 1px solid #CACACA;
-      font-size: 30px;
-      padding: 5px 16px 8px 15px;
-      color: #CACACA;">&gt;
-      </button>
-    </div>`;
+    // Only show arrows if there are more than 4 properties
+    if (properties.length > 4) {
+      headingsContainerArrows.innerHTML = `
+        <div class="slider-arrows" id="FeaturedPropertyArrow">
+          <button class="slider-arrowLeft" id="prevArrow" style="display: none; background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&lt;</button>
+          <button class="slider-arrowRight" id="nextArrow" style="background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&gt;</button>
+        </div>
+      `;
 
-    const FeaturedPropertyArrow = document.getElementById("FeaturedPropertyArrow");
-    if (properties.length < 5) {
-      FeaturedPropertyArrow.style.display = "none";
-    } else {
-      FeaturedPropertyArrow.style.display = "block";
+      const nextArrow = document.getElementById("nextArrow");
+      const prevArrow = document.getElementById("prevArrow");
+
+      nextArrow.addEventListener("click", () => {
+        if (currentPageIndex + 4 < properties.length) {
+          currentPageIndex += 4;
+          renderProperties({ data: { properties } });
+        }
+      });
+
+      prevArrow.addEventListener("click", () => {
+        if (currentPageIndex > 0) {
+          currentPageIndex -= 4;
+          renderProperties({ data: { properties } });
+        }
+      });
     }
-
-    const nextArrow = document.getElementById("nextArrow");
-    const prevArrow = document.getElementById("prevArrow");
-
-    nextArrow.addEventListener("click", () => {
-      const totalProperties = properties.length;
-      currentPageIndex = (currentPageIndex + 4) % totalProperties;
-      if (currentPageIndex >= totalProperties) {
-        currentPageIndex = 0;
-      }
-      renderProperties({ data: { properties } });
-      nextArrow.style.color = "#EE5925";
-      nextArrow.style.borderColor = "#CACACA";
-      prevArrow.style.color = "#CACACA";
-    });
-
-    prevArrow.addEventListener("click", () => {
-      const totalProperties = properties.length;
-      currentPageIndex = Math.max(0, currentPageIndex - 4);
-      if (currentPageIndex < 0) {
-        currentPageIndex = Math.floor((totalProperties - 1) / 4) * 4;
-      }
-      renderProperties({ data: { properties } });
-      prevArrow.style.color = "#EE5925";
-      prevArrow.style.borderColor = "#CACACA";
-      nextArrow.style.color = "#CACACA";
-    });
 
     renderProperties({ data: { properties } });
   } catch (error) {
@@ -1019,31 +990,41 @@ function renderProperties(data) {
   const headingsContainerApi = document.querySelector(".headingsContainerApi");
   const properties = data?.data?.properties || [];
 
+  // Get only 4 properties starting from currentPageIndex
+  const visibleProperties = properties.slice(
+    currentPageIndex,
+    currentPageIndex + 4
+  );
+
   headingsContainerApi.innerHTML = '<div class="properties-grid">';
 
-  properties.forEach((property) => {
+  // Only render the visible properties
+  visibleProperties.forEach((property) => {
     const images = JSON.parse(property.imageURL);
     const toggledImage = images.find((img) => img.toggle === true);
-    const defaultImage = "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
+    const defaultImage =
+      "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
 
-    // Create a temporary div to decode HTML entities and strip tags
-    const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = property.shortDescription;
     const cleanDescription = tempDiv.textContent || tempDiv.innerText;
 
     headingsContainerApi.querySelector(".properties-grid").innerHTML += `
       <div class="popularPropertiesBody">
         <div class="image-container">
-          <img src="${toggledImage ? toggledImage.imageUrl : defaultImage}" alt="${property.propertyName}">
+          <img src="${
+            toggledImage ? toggledImage.imageUrl : defaultImage
+          }" alt="${property.propertyName}">
           <div class="overlay">
-            <button onclick="renderPropertiesRedirection(${property.id}, true)">Click for More Info</button>
+            <button onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">Click for More Info</button>
           </div>
         </div>
         <div class="xyz">
           <h3>${property.propertyName}</h3>
           <div class="property-description">${cleanDescription}</div>
           <div class="property-details">
-           
             <p class="location">${property.location}</p>
             <p class="type">${property.propertyDetails?.bhkType || ""}</p>
             <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>
@@ -1053,7 +1034,17 @@ function renderProperties(data) {
     `;
   });
 
-  headingsContainerApi.innerHTML += '</div>';
+  headingsContainerApi.innerHTML += "</div>";
+
+  // Update arrow visibility
+  const nextArrow = document.getElementById("nextArrow");
+  const prevArrow = document.getElementById("prevArrow");
+
+  if (nextArrow && prevArrow) {
+    prevArrow.style.display = currentPageIndex === 0 ? "none" : "inline-block";
+    nextArrow.style.display =
+      currentPageIndex + 4 >= properties.length ? "none" : "inline-block";
+  }
 }
 function saveImagesAndVideos(properties) {
   properties.forEach((property, i) => {
