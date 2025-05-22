@@ -829,7 +829,7 @@ function reset() {
 }
 
  function youTubeVideoIdExtractor(url) {
-  debugger;
+  // debugger;
   const params = url
   const splitedURL = params.split('/')
   let videoID = splitedURL[splitedURL.length - 1]
@@ -944,7 +944,7 @@ let ListofAll = [];
 async function GetAllFeaturedProperty() {
   try {
     const response = await fetch(
-      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500`
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`
     );
     const data = await response.json();
     
@@ -1073,7 +1073,7 @@ let ListofAll1 = [];
 async function GetAllResaleProperty() {
   try {
     const response = await fetch(
-      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500`
+      `${apiUrl}partners/properties/featured?emailDomain=info@mhrealty.in&pageNumber=1&pageSize=500&readyToMove=No`
     );
     const data = await response.json();
     
