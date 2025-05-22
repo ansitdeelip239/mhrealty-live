@@ -3,7 +3,7 @@ var ConstantIP = '';
 var ConstantFeaturedProperty = '';
 var constantVideoID = '';
 var partnerId = 'info@mhrealty.in';
-var domain='mhralty.in';
+var domain='mhrealty.in';
 
 // Execute after the DOM is loaded
 document.addEventListener('DOMContentLoaded', loadNavbar);
