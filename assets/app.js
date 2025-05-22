@@ -3,7 +3,7 @@ var ConstantIP = '';
 var ConstantFeaturedProperty = '';
 var constantVideoID = '';
 var partnerId = 'info@mhrealty.in';
-var domain='mhrealty.in';
+var domain='mhralty.in';
 
 // Execute after the DOM is loaded
 document.addEventListener('DOMContentLoaded', loadNavbar);
@@ -302,6 +302,7 @@ function openContactModal(val) {
   document.getElementById("notValidEmail11").style.display = "none";
 }
 function sendMessageGetinTouchForm() {
+   document.getElementById("loaderOverlay").style.display = "flex";
   var message, name, subject, emailaddress, mobile
   message = document.forms["getinTouchForm"]["getinTouchFormmessage"].value;
   emailaddress = document.forms["getinTouchForm"]["getinTouchFormemail"].value;
@@ -349,6 +350,7 @@ function sendMessageGetinTouchForm() {
     xhr.send(JSON.stringify(mybody));
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
+         document.getElementById("loaderOverlay").style.display = "none";
         if (xhr.status == 200) {
           var json_data = JSON.parse(xhr.responseText);
           if (json_data.success) {
@@ -918,7 +920,7 @@ function contactEmail() {
 
 function emailCheckContact(email) {
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", `${apiUrl}/api/v1/User/varifyUserbyEmail?email=${email}`);
+  xhr.open("GET", `${apiUrl}account/check-email?email=${email}`);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
   xhr.send();
