@@ -154,7 +154,7 @@ window.onload = function () {
                 <div class="ButtonTabs" style="display: flex;">
                   <div>
                     <button class="btn btn-success mobileBTN1" data-toggle="modal" data-target="#popupimages"
-                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images1
+                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
                     </button>
                   </div>
                   <div>
@@ -209,7 +209,7 @@ window.onload = function () {
         <div class="ButtonTabs" style="display: flex;">
                   <div>
                     <button class="btn btn-success mobileBTN1" data-toggle="modal" data-target="#popupimages"
-                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images2
+                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
                     </button>
                   </div>
                   <div>
@@ -1156,7 +1156,7 @@ function renderProperties1(data) {
           <div class="overlay">
             <button onclick="renderProperties1Redirection(${
               property.id
-            }, true)">Click for More Info Resale</button>
+            }, true)">Click for More Info</button>
           </div>
         </div>
         <div class="xyz">
