@@ -96,6 +96,7 @@ function isInitialPage() {
 }
 
 window.onload = function () {
+  debugger;
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get('pro');
   const img = urlParams.get('img');
@@ -153,7 +154,7 @@ window.onload = function () {
                 <div class="ButtonTabs" style="display: flex;">
                   <div>
                     <button class="btn btn-success mobileBTN1" data-toggle="modal" data-target="#popupimages"
-                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
+                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images1
                     </button>
                   </div>
                   <div>
@@ -188,21 +189,27 @@ window.onload = function () {
           }
         }
         if (reSale === "true") {
-          if (details.ImageURLType.length > 0) {
+          if (details.imageURL.length > 0) {
             $("#main-card").html(`
   <div>
-    ${videoID ? `<iframe width="300" height="400" src=${videoID} style="width:100%" title="YouTube video player"
+    ${
+      videoID
+        ? `<iframe width="300" height="400" src=${videoID} style="width:100%" title="YouTube video player"
       frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>` : ''}
+      allowfullscreen></iframe>`
+        : ""
+    }
       
     <div class="row">
       <div class="col-md-4">
-        <img src=${toggledImage ? toggledImage.ImageUrl : details.ImageURLType[0].ImageUrl} style="height: 200px;width:100%;cursor:zoom-in" data-toggle="modal" data-target="#popupimages" onclick="imageslistpopup(${index},${slider},${reSale})">
+        <img src=${
+          toggledImage ? toggledImage.imageUrl : details.imageURL[0].imageUrl
+        } style="height: 200px;width:100%;cursor:zoom-in" data-toggle="modal" data-target="#popupimages" onclick="imageslistpopup(${index},${slider},${reSale})">
      
         <div class="ButtonTabs" style="display: flex;">
                   <div>
                     <button class="btn btn-success mobileBTN1" data-toggle="modal" data-target="#popupimages"
-                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
+                      onclick="imageslistpopup(${index},${slider},${reSale})">View More Images2
                     </button>
                   </div>
                   <div>
@@ -214,7 +221,9 @@ window.onload = function () {
       </div>
 
       <div class="col-md-8 float-left row" style="margin-bottom: 120px;font-size: 15px;">
-        <div class="col-md-12" style=" text-align: justify;">${data.data.Discription}
+        <div class="col-md-12" style=" text-align: justify;">${
+          data.data.longDescription
+        }
         </div>
 
         <div class="col-md-12" style="margin-top: 20px;">
@@ -222,15 +231,19 @@ window.onload = function () {
           </div>
         </div> 
 
-        ${data.data.Discription.length > 1500 ? `
+        ${
+          data.data.longDescription.length > 1500
+            ? `
         <div class="row col-md-12">   
           <button class="btn btn-success mobileBTN1 mobileBTN2edit1" data-toggle="modal" data-target="#popupimages" onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
           </button>      
           <a class="btn btn-success position-absolute mobileBTN2 mobileBTN2edit2" href="#" data-toggle="modal" data-target="#modalContact" onclick="openContactModal('BUYER')">Enquire Now
           </a>      
-        </div>` : ''}
+        </div>`
+            : ""
+        }
     </div>
-  </div> `)
+  </div> `);
           }
         }
       });
@@ -534,11 +547,13 @@ function imageslistpopup(index, slider, resale) {
     video = localStorage.getItem(`videoSlider${index}`);
   }
   if (resale) {
-    photos = JSON.parse(localStorage.getItem(`imageResale${index}`));
+    photos = JSON.parse(JSON.parse(localStorage.getItem(`imageResale${index}`)));
     video = localStorage.getItem(`videoResale${index}`);
   }
   let imgtype = [];
   let images = [];
+  console.log(photos);
+  
   photos.forEach((im) => {
     if (!imgtype.includes(im.type)) {
       imgtype.push(im.type)
@@ -607,7 +622,7 @@ function nextimagearrow(propertyindex, imageindex) {
     video = localStorage.getItem(`videoSlider${propertyindex}`);
   }
   if (reSale == 'true') {
-    images = JSON.parse(localStorage.getItem(`imageResale${propertyindex}`));
+    images = JSON.parse(JSON.parse(localStorage.getItem(`imageResale${propertyindex}`)));
     video = localStorage.getItem(`videoResale${propertyindex}`);
   }
   if (video) {
@@ -695,15 +710,15 @@ function imagetabb(propindex, type) {
     video = localStorage.getItem(`videoSlider${propindex}`);
   }
   if (reSale == 'true') {
-    images = JSON.parse(localStorage.getItem(`imageResale${propindex}`));
+    images = JSON.parse(JSON.parse(localStorage.getItem(`imageResale${propindex}`)));
     video = localStorage.getItem(`videoResale${propindex}`);
   }
   let filterimage = [];
   let imgtype = [];
-  let index = images.findIndex(x => x.Type == type);
+  let index = images.findIndex(x => x.type == type);
   images.forEach((im) => {
-    if (!imgtype.includes(im.Type)) {
-      imgtype.push(im.Type)
+    if (!imgtype.includes(im.type)) {
+      imgtype.push(im.type)
     }
   })
   if (video) {
@@ -943,7 +958,7 @@ let ListofAll = [];
 async function GetAllFeaturedProperty() {
   try {
     const response = await fetch(
-      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&isFeatured=true`
     );
     const data = await response.json();
     const properties = data?.data?.properties || [];
@@ -1053,25 +1068,55 @@ function saveImagesAndVideos(properties) {
     localStorage.setItem(`videoSlider${i}`, property.videoURL || "");
   });
 }
-function renderPropertiesRedirection(Id, slider) {
+function renderPropertiesRedirection(id, slider) {
   
-  const propertyIndex = ListofAll.findIndex(property => property.id === Id);
-  console.log(Id, slider, ListofAll);
-  window.open(`./property_details.html?pro=${Id}&in=${propertyIndex}&slid=${slider}`, '_blank');
+  const propertyIndex = ListofAll.findIndex(property => property.id === id);
+  console.log(id, slider, ListofAll);
+  window.open(`./property_details.html?pro=${id}&in=${propertyIndex}&slid=${slider}`, '_blank');
 }
 let currentPageIndex1 = 0;
 let ListofAll1 = [];
 async function GetAllResaleProperty() {
+  debugger;
   try {
     const response = await fetch(
-      `${apiUrl}partners/properties/featured?emailDomain=info@mhrealty.in&pageNumber=1&pageSize=500&readyToMove=No`
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`
     );
     const data = await response.json();
-    
-    // Use the same properties array for both sections
     const properties = data?.data?.properties || [];
     saveImagesAndVideos1(properties);
     ListofAll1 = properties;
+
+    const headingsContainerResaleArrows = document.querySelector(
+      ".headingsContainerResaleArrows"
+    );
+
+    // Only show arrows if there are more than 4 properties
+    if (properties.length > 4) {
+      headingsContainerResaleArrows.innerHTML = `
+        <div class="slider-arrows" id="ResalePropertyArrow">
+          <button class="slider-arrowLeft" id="prevArrowResale" style="display: none; background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&lt;</button>
+          <button class="slider-arrowRight" id="nextArrowResale" style="background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&gt;</button>
+        </div>
+      `;
+
+      const nextArrow = document.getElementById("nextArrowResale");
+      const prevArrow = document.getElementById("prevArrowResale");
+
+      nextArrow.addEventListener("click", () => {
+        if (currentPageIndex1 + 4 < properties.length) {
+          currentPageIndex1 += 4;
+          renderProperties1({ data: { properties } });
+        }
+      });
+
+      prevArrow.addEventListener("click", () => {
+        if (currentPageIndex1 > 0) {
+          currentPageIndex1 -= 4;
+          renderProperties1({ data: { properties } });
+        }
+      });
+    }
 
     renderProperties1({ data: { properties } });
   } catch (error) {
@@ -1085,17 +1130,21 @@ function renderProperties1(data) {
   );
   const properties = data?.data?.properties || [];
 
+  const visibleProperties = properties.slice(
+    currentPageIndex1,
+    currentPageIndex1 + 4
+  );
+
   headingsContainerResaleApi.innerHTML = '<div class="properties-grid">';
 
-  properties.forEach((property) => {
+  visibleProperties.forEach((property) => {
     const images = JSON.parse(property.imageURL);
     const toggledImage = images.find((img) => img.toggle === true);
     const defaultImage =
       "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
 
-    // Create temporary div to decode HTML entities and strip tags
     const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = property.shortDescription;
+    tempDiv.innerHTML = property.shortDescription || "";
     const cleanDescription = tempDiv.textContent || tempDiv.innerText;
 
     headingsContainerResaleApi.querySelector(".properties-grid").innerHTML += `
@@ -1105,13 +1154,13 @@ function renderProperties1(data) {
             toggledImage ? toggledImage.imageUrl : defaultImage
           }" alt="${property.propertyName}">
           <div class="overlay">
-            <button onclick="renderPropertiesRedirection(${
+            <button onclick="renderProperties1Redirection(${
               property.id
-            }, true)">Click for More Info</button>
+            }, true)">Click for More Info Resale</button>
           </div>
         </div>
         <div class="xyz">
-          <h3>${property.propertyName}</h3>
+          <h3 class="property-title">${property.propertyName}</h3>
           <div class="property-description">${cleanDescription}</div>
           <div class="property-details">
             <p class="location">${property.location}</p>
@@ -1124,19 +1173,30 @@ function renderProperties1(data) {
   });
 
   headingsContainerResaleApi.innerHTML += "</div>";
+
+  // Update arrow visibility
+  const nextArrow = document.getElementById("nextArrowResale");
+  const prevArrow = document.getElementById("prevArrowResale");
+
+  if (nextArrow && prevArrow) {
+    prevArrow.style.display = currentPageIndex1 === 0 ? "none" : "inline-block";
+    nextArrow.style.display =
+      currentPageIndex1 + 4 >= properties.length ? "none" : "inline-block";
+  }
 }
 function saveImagesAndVideos1(propertyModels) {
   let i = 0;
   propertyModels.forEach(x => {
-    let raw = x?.ImageURLType;
+    let raw = x?.imageURL;
     localStorage.setItem(`imageResale${i}`, JSON.stringify(raw));
-    localStorage.setItem(`videoResale${i}`, x.VideoURL);
+    localStorage.setItem(`videoResale${i}`, x.videoURL);
     i++;
   })
 }
-function renderProperties1Redirection(Id, reSale) {
-  const propertyIndex = ListofAll1.findIndex(property => property.ID === Id);
-  window.open(`./property_details.html?pro=${Id}&in=${propertyIndex}&resale=${reSale}`, '_blank');
+function renderProperties1Redirection(id, reSale) {
+  debugger;
+  const propertyIndex = ListofAll1.findIndex(property => property.id === id);
+  window.open(`./property_details.html?pro=${id}&in=${propertyIndex}&resale=${reSale}`, '_blank');
 }
 function toggleNavbar() {
   var navbarLinks = document.getElementById("navbarLinks");

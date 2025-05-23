@@ -15,6 +15,17 @@
   padding: 20px;
 }
 
+.popularPropertiesBody {
+  height: 100%;
+  /* Add this */
+  display: flex;
+  /* Add this */
+  flex-direction: column;
+  /* Add this */
+  background: #FFFFFF;
+  margin-bottom: 20px;
+}
+
 .popularPropertiesBody, 
 .resalePropertiesBody {
   background: #ffffff;
