@@ -96,7 +96,7 @@ function isInitialPage() {
 }
 
 window.onload = function () {
-  debugger;
+  // debugger;
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get('pro');
   const img = urlParams.get('img');
@@ -1077,7 +1077,7 @@ function renderPropertiesRedirection(id, slider) {
 let currentPageIndex1 = 0;
 let ListofAll1 = [];
 async function GetAllResaleProperty() {
-  debugger;
+  // debugger;
   try {
     const response = await fetch(
       `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`
@@ -1194,7 +1194,7 @@ function saveImagesAndVideos1(propertyModels) {
   })
 }
 function renderProperties1Redirection(id, reSale) {
-  debugger;
+  // debugger;
   const propertyIndex = ListofAll1.findIndex(property => property.id === id);
   window.open(`./property_details.html?pro=${id}&in=${propertyIndex}&resale=${reSale}`, '_blank');
 }
