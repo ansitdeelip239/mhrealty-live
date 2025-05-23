@@ -54,10 +54,10 @@ function setActiveClass() {
 // let apiUrl = 'https://freehostingweb.bsite.net/'
 // let apiUrl = "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
 // Live
-let apiUrl ="https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
+// let apiUrl ="https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
 
 // Dev----------
-// let apiUrl = 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/'
+let apiUrl = 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/'
 // *********************************************************
 
 // function urlRedirection(token) {
@@ -675,7 +675,7 @@ function nextimagearrow(propertyindex, imageindex) {
         }
       }
       else {
-        const videoID = youTubeVideoIdExtractor(images[i]?.imageURL)
+        const videoID = youTubeVideoIdExtractor(images[i]?.imageUrl)
         $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
       }
     }
@@ -693,7 +693,7 @@ function nextimagearrow(propertyindex, imageindex) {
         }
       }
       else {
-        const videoID = youTubeVideoIdExtractor(images[i]?.imageURL)
+        const videoID = youTubeVideoIdExtractor(images[i]?.imageUrl)
         $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
       }
     }
