@@ -211,9 +211,18 @@
     top: -105px;
     right: 180px;
   }
+   .fa-arrow-left.clr-gry:hover{
+    background-color: #ee5a25a9;
+  }
+  .clr-gry.slick-arrow:hover{
+    color:#09898A;
+  }
   .fa-arrow-right.clr-gry {
     top: -105px;
     right: 100px;
+  }
+    .fa-arrow-right.clr-gry:hover {
+    background-color: #ee5a25a9;
   }
   .circle-icon {
     background: white;
