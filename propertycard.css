@@ -242,13 +242,14 @@
 }
 
 .slider-arrows button {
-  background: white !important;
+  background: #009da3 !important;
   border-radius: 50% !important;
   border: 1px solid #CACACA !important;
   font-size: 30px !important;
   padding: 5px 16px 8px 15px !important;
   color: #CACACA !important;
   cursor: pointer !important;
+  font-weight: bold !important;
   transition: all 0.3s ease !important;
 }
 
