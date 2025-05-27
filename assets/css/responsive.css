@@ -640,8 +640,9 @@
     margin-left: 4%;
   }
 
-
-
+#text-color{
+  color: var(--secondary-Headingscolor) !important
+}
   .footerLi1 {
     margin-top: -20px;
   }

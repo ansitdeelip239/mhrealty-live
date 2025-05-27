@@ -23,7 +23,9 @@
     display: flex;
     justify-content: center;
 }
-
+#text-color{
+  color: var(--secondary-Headingscolor) !important
+}
 body {
   margin: 0;
   overflow-x: hidden;
@@ -65,15 +67,13 @@ body {
   color: var(--secondary-FooterLinkingcolor);
   text-align: center;
   padding: 15px 16px;
-  /* Reduced padding */
   text-decoration: none;
   padding-right: 25px;
-  /* Reduced right padding */
   letter-spacing: 1px;
   font-size: 1.15rem;
   height: 50px;
-  /* Reduced height */
   line-height: 20px;
+  margin-right: 10px; /* Add margin between items */
 }
 .navbar .anchor:hover {
   background-color: var(--primary-Whitecolor);
@@ -91,14 +91,17 @@ body {
   letter-spacing: 1.6px;
   color: var(--secondary-FooterLinkingcolor);
 }
+/* Update navbar button margins */
 .navbar-button {
   color: var(--primary-Whitecolor);
   border: none;
-  padding: 6px 25px;
+  padding: 6px 20px; /* Slightly reduce padding */
   cursor: pointer;
   display: inline-flex;
   gap: 5px;
   background-color: var(--primary-color);
+  margin-right: 10px; /* Add margin between buttons */
+  margin-bottom: 5px; /* Add margin below buttons */
 }
 .contact-buttons {
   margin-top: 5px;
@@ -173,6 +176,7 @@ body {
   color: var(--primary-Whitecolor);
   background-color: var(--primary-color);
   padding: 15px 16px;
+  border-radius:15px;
 }
 /* Update active state to match new dimensions */s
 .linking.active {
@@ -184,6 +188,7 @@ body {
 .navbar .anchor:hover {
   background-color: var(--primary-color);
   color: var(--secondary-Headingscolor);
+   border-radius:15px;
 }
 @media screen and (max-width: 600px) {
   .navbar .anchor,
@@ -304,7 +309,7 @@ body {
 .headingsP {
   color: var(--secondary-FooterLinkingcolor);
   font-family: Nexa;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: 30px;
@@ -351,7 +356,7 @@ body {
 .headingsSubContainerText2 {
   color: var(--secondary-FooterLinkingcolor);
   font-family: Nexa !important;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 300;
   line-height: 21px;
@@ -451,7 +456,7 @@ body {
 .aboutText {
   color: var(--secondary-FooterLinkingcolor);
   font-family: Nexa;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 399;
   line-height: 32px;
 }
@@ -515,7 +520,7 @@ body {
   font-weight: 700;
   line-height: normal;
   margin-bottom: 50px;
-  text-align: center;
+  text-align: start;
   padding-top: 60px;
 }
 .text-primary-l {
@@ -557,7 +562,7 @@ body {
 .newContainerHead {
   color: #fff;
   font-family: Nexa;
-  font-size: 36px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 400;
   line-height: 40px;
@@ -567,7 +572,7 @@ body {
 .newContainerBody {
   color: #fff;
   font-family: Nexa;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 300;
   line-height: 26px;
@@ -584,7 +589,7 @@ body {
   padding-bottom: 12px;
   letter-spacing: 2px;
   width: 65%;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 /* Contact Page */
 .ContactSection {
@@ -613,7 +618,7 @@ body {
   font-family: Nexa;
   font-weight: 400;
   color: #ffffff;
-  font-size: 48px;
+  font-size: 38px;
   letter-spacing: 0;
   line-height: initial;
   padding-top: 10px;
@@ -623,8 +628,9 @@ body {
   font-family: Nexa;
   font-weight: 400;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 1px;
+      margin-top: 5px;
 }
 .ellipse2 {
   position: absolute;
@@ -655,7 +661,7 @@ body {
 }
 
 .footerHead {
-  color: var(--primary-Blackcolor);
+color:#09898a;
   /* font-family: Nexa Bold; */
   font-family: Nexa;
   font-size: 22px;
@@ -821,7 +827,7 @@ label {
   font-family: Nexa;
   font-weight: 400;
   color: #484848;
-  font-size: 24px;
+  font-size: 20px;
   letter-spacing: 0;
   line-height: 26px;
   width: 90%;
@@ -852,7 +858,7 @@ textarea:valid + label {
   padding-left: 35px;
   padding-right: 35px;
   font-size: 20px;
-  background-color: var(--secondary-FooterLinkingcolor);
+background-color: #ee5a257a;
   color: var(--primary-Whitecolor);
   border: 0px;
 }

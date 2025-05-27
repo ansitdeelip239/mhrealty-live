@@ -64,6 +64,9 @@ ul {
 .text-primary {
   font-weight: 800;
 }
+#text-color{
+  color: var(--secondary-Headingscolor) !important
+}
 .loan-txt {
   text-align: center;
 }
@@ -1141,7 +1144,6 @@ span.pswo {
   padding: 10px 30px;
 }
 .homeloan-button {
-  color: var(--primary-Whitecolor) !important;
   padding: 23px 10px 26px;
   white-space: nowrap;
   align-items: center;
