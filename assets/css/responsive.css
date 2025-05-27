@@ -297,12 +297,17 @@
   .headings2 {
     font-size: 24px !important;
   }
-  .navbar-button {
-    border: none !important;
-    padding: 10px 30px !important;
-    margin: 0px 0px 0px 15px !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
+    .navbar-button {
+      color: var(--primary-Whitecolor);
+      border: none;
+      padding: 10px 25px;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      background-color: var(--primary-color);
+      height: 40px;
+      /* Added fixed height */
+      align-items: center;
     }
   .homeloan-button {
     color: white !important;

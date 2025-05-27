@@ -1173,6 +1173,7 @@ span.pswo {
 .linking .orange-line {
   width: 40%;
 }
+
 .linking.active {
   color: var(--secondary-Headingscolor);
 }

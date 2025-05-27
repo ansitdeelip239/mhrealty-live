@@ -64,11 +64,16 @@ body {
   display: block;
   color: var(--secondary-FooterLinkingcolor);
   text-align: center;
-  padding: 25px 16px;
+  padding: 15px 16px;
+  /* Reduced padding */
   text-decoration: none;
-  padding-right: 35px;
+  padding-right: 25px;
+  /* Reduced right padding */
   letter-spacing: 1px;
   font-size: 1.15rem;
+  height: 50px;
+  /* Reduced height */
+  line-height: 20px;
 }
 .navbar .anchor:hover {
   background-color: var(--primary-Whitecolor);
@@ -99,9 +104,10 @@ body {
   margin-top: 5px;
 }
 .homeloan-button {
-  color: var(--primary-Whitecolor);
-  border: none;
-  padding: 21px 10px 28px 10px;
+  color: var(--secondary-FooterLinkingcolor);
+  border: 2px solid var(--primary-color);
+  padding: 10px 20px;
+  /* Reduced padding */
   text-align: center;
   white-space: nowrap;
   align-items: center;
@@ -110,22 +116,26 @@ body {
   display: inline-flex;
   position: relative;
   margin: 5px;
-  background-color: var(--primary-color);
-  font-weight: 800;
+  /* Reduced margin */
+  background-color: transparent;
+  font-weight: 600;
+  height: 40px;
+  /* Reduced height */
+  line-height: 20px;
 }
 
+/* Update hover state to match */
 .homeloan-button:hover {
-  background-color: white;
+  background-color: transparent;
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
-  border-radius: 10px;
 }
+/* Update active state to match */
 .activate {
-  background-color: white;
+  background-color: transparent;
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
-  border-radius: 10px;
-  font-weight: 800;
+  font-weight: 600;
 }
 .orange-line {
   display: block;
@@ -140,10 +150,39 @@ body {
   height: 20px;
   background-color: orange;
 }
-.linking .orange-line {
+/* .linking .orange-line {
   width: 40%;
+} */
+.homeloan-button:hover,
+.homeloan-button.active {
+  background-color: var(--primary-color);
+  color: var(--primary-Whitecolor);
+  border: 2px solid var(--primary-color);
 }
+
+/* Remove or update the .activate class */
+.activate {
+  background-color: var(--primary-color);
+  color: var(--primary-Whitecolor);
+  border: 2px solid var(--primary-color);
+  font-weight: 600;
+}
+
+/* Update the linking active state to be consistent */
 .linking.active {
+  color: var(--primary-Whitecolor);
+  background-color: var(--primary-color);
+  padding: 15px 16px;
+}
+/* Update active state to match new dimensions */s
+.linking.active {
+  color: var(--secondary-Headingscolor);
+  background-color: var(--primary-color);
+  padding: 15px 16px;
+  /* Match navbar anchor padding */
+}
+.navbar .anchor:hover {
+  background-color: var(--primary-color);
   color: var(--secondary-Headingscolor);
 }
 @media screen and (max-width: 600px) {
@@ -167,6 +206,17 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.number {
+  color: var(--primary-Whitecolor);
+  /* Default white color */
+  transition: color 0.3s ease;
+  /* Smooth transition effect */
+}
+
+.navbar-button:hover .number {
+  color: black;
+  font-weight: bold; 
 }
 .topheding {
   width: 100%;

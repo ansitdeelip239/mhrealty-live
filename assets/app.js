@@ -54,10 +54,10 @@ function setActiveClass() {
 // let apiUrl = 'https://freehostingweb.bsite.net/'
 // let apiUrl = "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
 // Live
-// let apiUrl ="https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
+let apiUrl ="https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
 
 // Dev----------
-let apiUrl = 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/'
+// let apiUrl = 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/'
 // *********************************************************
 
 // function urlRedirection(token) {
@@ -973,7 +973,7 @@ async function GetAllFeaturedProperty() {
     if (properties.length > 4) {
       headingsContainerArrows.innerHTML = `
         <div class="slider-arrows" id="FeaturedPropertyArrow">
-          <button class="slider-arrowLeft" id="prevArrow" style="display: none; background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&lt;</button>
+          <button class="slider-arrowLeft" id="prevArrow" style="display: none;background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&lt;</button>
           <button class="slider-arrowRight" id="nextArrow" style="background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&gt;</button>
         </div>
       `;
