@@ -335,13 +335,9 @@
 
 
 .headings.col-md-12 {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin-bottom: 30px !important;
-}
-
-.headings .heading-content {
-  flex: 1 !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
 }

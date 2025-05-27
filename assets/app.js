@@ -1279,36 +1279,23 @@ async function GetAllFeedback() {
         `);
         } else {
           $("#your-class-feedback").append(`
-          <div>
-            <div style="color: #2B2B2B;
-              font-family: Nexa-Bold;
-              font-size: 19.4px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: 28px;
-              padding: 0px 50px 50px 40px;
-              text-align: justify;">
-              ${x?.feedbackText ? x?.feedbackText : ""}
-            </div>
-            <hr style="border-top: 1px solid #D4D4D4; width: 80%;">
-            <div class="feedbackImg feedbackImgNewCSS row" style="display: flex; align-items: center; justify-content: space-around; padding: 0px 0px 10px 40px;">
-              <div class="col-md-2" style="text-align: center;">
-                <span class="feedbackImgBody" style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; display: inline-block;">
-                  <img src="${
-                    x?.imageURL
-                      ? x?.imageURL
-                      : "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/man.webp"
-                  }" alt="" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" >
-                </span>
-              </div>
-              <div class="col-md-10 feedbackImgNewCSS" style="text-align: left;">
-                <span style="color: #2B2B2B; font-family: Nexa-Bold; font-size: 22px; font-style: normal; font-weight: 400; line-height: normal;">
-                ${x?.customerName.replace(/ - /, "<br>")}
-                </span>
-                </span>
-              </div>
-            </div>
-        </div>
+      <div style="max-width: 100%; padding: 0 20px; box-sizing: border-box;">
+  <div style="color: #2B2B2B; font-family: 'Nexa-Bold', sans-serif; font-size: clamp(16px, 4vw, 18px); font-style: normal; font-weight: 400; line-height: 1.5; padding: 0 5% 30px 5%; text-align: justify;">
+    ${x?.feedbackText ? x?.feedbackText : ""}
+  </div>
+  <hr style="border-top: 1px solid #D4D4D4; width: 60%; margin: 0 auto 20px;">
+  <div class="feedbackImg feedbackImgNewCSS" style="display: flex; width: 100%; max-width: 80%; margin: 0 auto; gap: 20px; align-items: center; justify-content: flex-start; padding: 0 0 10px 5%; box-sizing: border-box;">
+    <div style="flex: 0 0 auto; text-align: center;">
+      <span style="width: clamp(80px, 15vw, 100px); height: clamp(80px, 15vw, 100px); border: 4px solid #09898A; border-radius: 50%; overflow: hidden; display: inline-block;">
+        <img src="${x?.imageURL ? x?.imageURL : 'https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/man.webp'}" alt="Customer Image" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;">
+      </span>
+    </div>
+    <div style="flex: 1; text-align: left;">
+      <span style="color: #2B2B2B; font-family: 'Nexa-Bold', sans-serif; font-size: clamp(18px, 5vw, 20px); font-style: normal; font-weight: 400; line-height: normal; display: block;">
+        ${x?.customerName.replace(/ - /, "<br>")}
+      </span>
+    </div>
+  </div>
 
         `);
         }
