@@ -230,26 +230,31 @@
   cursor: not-allowed;
 }
 .headingsContainerArrows {
-  display: flex;
-  justify-content: flex-end;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  margin-top: 20px !important; /* Adjust spacing as needed */
 }
+
 .slider-arrows {
-  display: flex;
-  gap: 10px;
+  display: flex !important;
+  gap: 10px !important;
 }
+
 .slider-arrows button {
-  background: white;
-  border-radius: 50%;
-  border: 1px solid #CACACA;
-  font-size: 30px;
-  padding: 5px 16px 8px 15px;
-  color: #CACACA;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: white !important;
+  border-radius: 50% !important;
+  border: 1px solid #CACACA !important;
+  font-size: 30px !important;
+  padding: 5px 16px 8px 15px !important;
+  color: #CACACA !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
 }
+
 .slider-arrows button:hover {
-  border-color: #00c4cc;
-  color: #00c4cc;
+  border-color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 @keyframes slideIn {
   from {
@@ -326,4 +331,17 @@
     max-width: none;
     margin: 0;
   }
+}
+
+
+.headings.col-md-12 {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-bottom: 30px !important;
+}
+
+.headings .heading-content {
+  flex: 1 !important;
 }

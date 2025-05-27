@@ -365,8 +365,11 @@ body {
 }
 
 .headingsContainerArrows {
-  margin-left: 50%;
-  padding-top: 20px;
+  display: flex !important;
+  justify-content: flex-end !important; 
+  align-items: center !important;
+  margin-left: auto !important; /* Push to right end */
+  margin-top: 0 !important; /* Remove top margin */
 }
 
 /* Our Services */
