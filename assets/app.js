@@ -1030,13 +1030,17 @@ function renderProperties(data) {
           <img src="${
             toggledImage ? toggledImage.imageUrl : defaultImage
           }" alt="${property.propertyName}">
-          <div class="overlay">
+          <div class="overlay" onclick="renderProperties1Redirection(${
+              property.id
+            }, true)">
             <button onclick="renderPropertiesRedirection(${
               property.id
             }, true)">Click for More Info</button>
           </div>
         </div>
-        <div class="xyz">
+        <div class="xyz" onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">
           <h3>${property.propertyName}</h3>
           <div class="property-description">${cleanDescription}</div>
           <div class="property-details">
@@ -1153,13 +1157,17 @@ function renderProperties1(data) {
           <img src="${
             toggledImage ? toggledImage.imageUrl : defaultImage
           }" alt="${property.propertyName}">
-          <div class="overlay">
+          <div class="overlay" onclick="renderProperties1Redirection(${
+              property.id
+            }, true)">
             <button onclick="renderProperties1Redirection(${
               property.id
             }, true)">Click for More Info</button>
           </div>
         </div>
-        <div class="xyz">
+        <div class="xyz" class="xyz" onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">
           <h3 class="property-title">${property.propertyName}</h3>
           <div class="property-description">${cleanDescription}</div>
           <div class="property-details">
