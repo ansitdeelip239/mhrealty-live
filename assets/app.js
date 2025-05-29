@@ -1,3 +1,4 @@
+const hmctoken ='e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac'
 var bhktypes = [], propertytypes = [], furnishtypes = [], listedBytypes = [], isskipCity = false, maximumPriceRent = 500000, maximumPriceBuy = 50000000
 var ConstantIP = '';
 var ConstantFeaturedProperty = '';
@@ -77,6 +78,7 @@ function getapicall(url) {
 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
     xhr.send();
     xhr.onreadystatechange = function () {
       var status = xhr.status;
@@ -114,8 +116,15 @@ window.onload = function () {
 
   if (id) {
     var details;
-    fetch(`${apiUrl}partners/properties/${id}`).
-      then(res => {
+    fetch(`${apiUrl}partners/properties/${id}`, {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer ' + hmctoken, // <-- token passed here
+    'Content-Type': 'application/json'
+  }
+})
+    
+      .then(res => {
         return res.json()
       }).then(data => {
         // debugger;
@@ -359,6 +368,7 @@ function sendMessageGetinTouchForm() {
     xhr.open("POST", `${apiUrl}properties/GetInTouch`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
     xhr.send(JSON.stringify(mybody));
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
@@ -385,6 +395,7 @@ function emailCheck(email, isLogin) {
   xhr.open("GET", `${apiUrl}/api/v1/User/varifyUserbyEmail?email=${email}`);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+  xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
   xhr.send();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
@@ -499,9 +510,10 @@ function checkuser() {
   var isvalid = reg.test(email);
   if (isvalid) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", `${apiUrl}/api/v1/User/varifyUserbyEmail?email=${email}`);
+    xhr.open("GET", `${apiUrl}/account/check-email?email=${email}`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
     xhr.send();
     xhr.onreadystatechange = function () {
       if (xhr?.readyState == 4) {
@@ -898,9 +910,10 @@ function isValidEmail(id, textID) {
 
 function emailVerify(email, textID) {
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", `${apiUrl}/api/v1/Account/EmailValidation?Email=${email}`);
+  xhr.open("GET", `${apiUrl}/account/check-email?email=${email}`);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+  xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
   xhr.send();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
@@ -958,7 +971,13 @@ let ListofAll = [];
 async function GetAllFeaturedProperty() {
   try {
     const response = await fetch(
-      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&isFeatured=true`
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&isFeatured=true`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + hmctoken,
+        }
+      }
     );
     const data = await response.json();
     const properties = data?.data?.properties || [];
@@ -1084,7 +1103,15 @@ async function GetAllResaleProperty() {
   // debugger;
   try {
     const response = await fetch(
-      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + hmctoken,
+        }
+      }
+      
+      
     );
     const data = await response.json();
     const properties = data?.data?.properties || [];
@@ -1259,7 +1286,16 @@ function imgSliderFeedback() {
 }
 async function GetAllFeedback() {
   try {
-    const response = await fetch(`${apiUrl}testimonials/by-createdby?createdBy=info@mhrealty.in&pageNumber=1&pageSize=100&isWebsite=true`);
+    const response = await fetch(
+    `${apiUrl}testimonials/by-createdby?createdBy=info@mhrealty.in&pageNumber=1&pageSize=100&isWebsite=true`,
+    {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + hmctoken,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
     const data = await response.json();
     let i = 0;
     data?.data?.testimonials.forEach((x) => {
