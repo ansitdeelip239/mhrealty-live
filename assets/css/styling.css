@@ -974,7 +974,7 @@ background-color: #ee5a257a;
 }
 
 .google-play-img {
-    width: 144px; /* Matches Tailwind's w-36 (9rem = 144px) */
+    width: 144px;
     height: auto;
     cursor: pointer;
 }
@@ -989,20 +989,20 @@ background-color: #ee5a257a;
     }
 
     .download-text {
-        font-size: 18px; /* Matches Tailwind's text-lg */
+        font-size: 18px; 
     }
 
     .google-play-img {
-        width: 144px; /* Matches Tailwind's w-36 (9rem = 144px) */
+        width: 144px; 
     }
 }
 
 @media (min-width: 768px) {
     .google-play-img {
-        width: 160px; /* Matches Tailwind's md:w-40 (10rem = 160px) */
+        width: 160px; 
     }
 
     .download-text {
-        font-size: 20px; /* Matches Tailwind's md:text-xl (approx. 20px) */
+        font-size: 20px; 
     }
 }
