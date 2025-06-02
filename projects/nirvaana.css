@@ -334,17 +334,17 @@ header {
 
 .call-button {
     background-color: #fff;
-    color: #1e90ff;
+    color: #09898A;
 }
 
 .sms-button {
     background-color: #fff;
-    color: #6c757d;
+    color: #09898A;
 }
 
 .whatsapp-button {
     background-color: #fff;
-    color: #25D366;
+    color: #09898A;
 }
 
 .powered-by {
@@ -460,7 +460,7 @@ footer {
     }
 
     .nav-links a.active {
-        background-color: #1e90ff;
+        background-color: #09898A;
         color: #fff;
     }
 
