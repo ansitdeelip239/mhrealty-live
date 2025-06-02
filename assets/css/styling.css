@@ -954,55 +954,55 @@ background-color: #ee5a257a;
       }
     }
 
+   .download-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #d4cece;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.download-text {
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.google-play-img {
+    width: 144px; /* Matches Tailwind's w-36 (9rem = 144px) */
+    height: auto;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     .download-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #d4cece;
-            padding: 10px 20px;
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 10px;
+    }
 
-        .download-text {
-            font-size: 25px;
-            font-weight: bold;
-            color: #333;
-            margin: 0;
-        }
+    .download-text {
+        font-size: 18px; /* Matches Tailwind's text-lg */
+    }
 
-        .google-play-img {
-            width: 180px;
-            height: auto;
-            cursor: pointer;
-        }
+    .google-play-img {
+        width: 144px; /* Matches Tailwind's w-36 (9rem = 144px) */
+    }
+}
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .download-section {
-                flex-direction: column;
-                text-align: center;
-                padding: 15px;
-                gap: 10px;
-            }
+@media (min-width: 768px) {
+    .google-play-img {
+        width: 160px; /* Matches Tailwind's md:w-40 (10rem = 160px) */
+    }
 
-            .download-text {
-                font-size: 16px;
-            }
-
-            .google-play-img {
-                width: 100px;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .download-text {
-                font-size: 14px;
-            }
-
-            .google-play-img {
-                width: 90px;
-            }
-        }
+    .download-text {
+        font-size: 20px; /* Matches Tailwind's md:text-xl (approx. 20px) */
+    }
+}
