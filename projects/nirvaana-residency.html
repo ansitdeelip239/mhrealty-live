@@ -110,7 +110,7 @@
     <section id="contact" class="section">
         <div class="contact-section">
             <div class="shared-by">SHARED BY</div>
-            <img src="../assets/MHRealty/sunita" alt="Agent Photo">
+            <img src="https://res.cloudinary.com/dzauu64ta/image/upload/f_auto,q_auto/v7ubjlxwedbrpd3fi1js" alt="Agent Photo">
             <h3>Sunita S. Gothe</h3>
             <p>+91 90827 39024</p>
             <p>MHRealty Property</p>
@@ -136,52 +136,78 @@
         </div>
     </footer>
 
-    <script>
-        // Hamburger menu toggle
-        const navToggle = document.querySelector('.nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
+   // Replace the existing script section with this updated code:
+<script>
+    // Hamburger menu toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
 
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+    navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Smooth scrolling and active link handling
+    const navLinksItems = document.querySelectorAll('.nav-link');
+    navLinksItems.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Hide mobile menu when link is clicked
+            if (window.innerWidth <= 768) {
+                navLinks.classList.remove('active');
+            }
+            
+            // Remove active class from all links
+            navLinksItems.forEach(item => item.classList.remove('active'));
+            
+            // Add active class to clicked link
+            link.classList.add('active');
+            
+            // Smooth scroll to section
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            const headerHeight = document.querySelector('header').offsetHeight;
+            window.scrollTo({
+                top: targetSection.offsetTop - headerHeight,
+                behavior: 'smooth'
+            });
         });
+    });
 
-        // Smooth scrolling and active link handling
-        const navLinksItems = document.querySelectorAll('.nav-link');
-        navLinksItems.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                // Remove active class from all links
-                navLinksItems.forEach(item => item.classList.remove('active'));
-                // Add active class to clicked link
-                link.classList.add('active');
-                // Smooth scroll to section
-                const targetId = link.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                const headerHeight = document.querySelector('header').offsetHeight;
-                window.scrollTo({
-                    top: targetSection.offsetTop - headerHeight,
-                    behavior: 'smooth'
+    // Highlight active link on scroll
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('section');
+        const scrollPos = window.scrollY + 100; // Adjust for header
+
+        sections.forEach(section => {
+            if (scrollPos >= section.offsetTop - 100 && scrollPos < section.offsetTop + section.offsetHeight) {
+                const currentId = section.getAttribute('id');
+                navLinksItems.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === currentId) {
+                        link.classList.add('active');
+                    }
                 });
-            });
+            }
         });
+    });
 
-        // Highlight active link on scroll
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section');
-            const scrollPos = window.scrollY + 100; // Adjust for header
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && 
+            !navLinks.contains(e.target) && 
+            !navToggle.contains(e.target) && 
+            navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+        }
+    });
 
-            sections.forEach(section => {
-                if (scrollPos >= section.offsetTop - 100 && scrollPos < section.offsetTop + section.offsetHeight) {
-                    const currentId = section.getAttribute('id');
-                    navLinksItems.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href').substring(1) === currentId) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    // Close mobile menu when window is resized above mobile breakpoint
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            navLinks.classList.remove('active');
+        }
+    });
+</script>
 </body>
 </html>

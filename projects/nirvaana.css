@@ -76,7 +76,7 @@ header {
 .hero {
     position: relative;
     height: 80vh;
-    background: url('../assets/MHRealty/nirvana') center/cover no-repeat;
+    background: url('https://res.cloudinary.com/dzauu64ta/image/upload/f_auto,q_auto/s7rvazptii2emlxbi6o9') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
