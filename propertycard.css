@@ -183,11 +183,24 @@
   line-height: 1.6;
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  /* -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  /* Remove HTML tags from text */
-  white-space: pre-line;
+  white-space: pre-line; */
+}
+
+.property-description {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.property-description font {
+  display: inline-block;
+  color:black
+}
+
+.property-description p {
+  margin: 0;
 }
 .property-details {
   display: flex;
@@ -346,4 +359,34 @@
   align-items: flex-start;
   width: 100%;
   position: relative;
+}
+
+/* Add these styles to your existing CSS */
+.see-more-btn {
+  background: none;
+  border: none;
+  color: #00c4cc;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 0;
+  text-decoration: underline;
+  margin-top: 5px;
+}
+
+.see-more-btn:hover {
+  color: #009da3;
+}
+
+.property-description,
+.full-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.full-description {
+  display: none;
 }

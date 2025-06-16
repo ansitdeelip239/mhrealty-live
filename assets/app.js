@@ -1039,9 +1039,9 @@ function renderProperties(data) {
     const defaultImage =
       "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
 
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = property.shortDescription;
-    const cleanDescription = tempDiv.textContent || tempDiv.innerText;
+    // const tempDiv = document.createElement("div");
+    // tempDiv.innerHTML = property.shortDescription;
+    // const cleanDescription = tempDiv.textContent || tempDiv.innerText;
 
     headingsContainerApi.querySelector(".properties-grid").innerHTML += `
       <div class="popularPropertiesBody">
@@ -1061,11 +1061,8 @@ function renderProperties(data) {
               property.id
             }, true)">
           <h3>${property.propertyName}</h3>
-          <div class="property-description">${cleanDescription}</div>
+          <div class="property-description">${property.shortDescription}</div>
           <div class="property-details">
-            <p class="location">${property.location}</p>
-            <p class="type">${property.propertyDetails?.bhkType || ""}</p>
-            <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>
           </div>
         </div>
       </div>
@@ -1196,11 +1193,9 @@ function renderProperties1(data) {
               property.id
             }, true)">
           <h3 class="property-title">${property.propertyName}</h3>
-          <div class="property-description">${cleanDescription}</div>
+          <div class="property-description">${property.shortDescription}</div>
           <div class="property-details">
-            <p class="location">${property.location}</p>
-            <p class="type">${property.propertyDetails?.bhkType || ""}</p>
-            <p class="area">${property.propertyDetails?.area || ""} sq.ft</p>
+            
           </div>
         </div>
       </div>
