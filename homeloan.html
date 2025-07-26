@@ -61,6 +61,9 @@
 </head>
 
 <body onLoad="scrollToContactForm()">
+   <div id="loaderOverlay" class="loader-overlay">
+        <div class="loader"></div>
+    </div>
   <div id="map"></div>
   <div id="map1"></div>
   <div id="map2"></div>
@@ -160,8 +163,8 @@
             <i class="fa fa-envelope emailIcon"></i>
           </span>
           <span>
-            <a href="mailto:contact@mhrealty.in"
-              class="headingsSubContainerText2">&nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in</a>
+            <a href="mailto:info@mhrealty.in"
+              class="headingsSubContainerText2">&nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in</a>
           </span>
         </div>
       </div>
@@ -229,7 +232,7 @@
         <div class="d-flex" style="text-align: center;justify-content: space-between;">
           <div class="g-recaptcha" id="rcaptcha" data-sitekey="6LdtCSgpAAAAAHm8tDwx8-L9LoDGx25ySNH9dPCv"
             data-callback="correctCaptcha"></div>
-          <button id="contactus-btn" type="button" disabled class="button button-contactForm"
+          <button style="cursor: pointer;" id="contactus-btn" type="button" disabled class="button button-contactForm"
             onclick="sendMessageGetinTouchForm()" style="font-size: 2rem;">Submit</button>
         </div>
         <!-- <button id="contactus-btn" type="button" disabled class="button button-contactForm"
@@ -390,8 +393,8 @@
                     <i class="fa fa-envelope emailIcon"></i>
                   </div>
                   <div>
-                    <a href="mailto:contact@mhrealty.in" class="footerText">
-                      &nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in
+                    <a href="mailto:info@mhrealty.in" class="footerText">
+                      &nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in
                     </a>
                   </div>
                 </li>
@@ -428,8 +431,8 @@
       <div class="col-md-4 footerBody">
         <ul>
           <li style="text-align: center;">
-            <img style="mix-blend-mode: multiply; height: 110px; cursor: pointer;"
-              src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735636747/MHRealty/MHRealty-logo-black.webp"
+            <img style="height: 110px; cursor: pointer;"
+          src="assets/MHRealty/MHRealty-logo.png"
               alt="Logo" class="logoIMG" loading="lazy" onClick="redirectToPage()" />
           </li>
           <li class="footerTextLink">
@@ -497,12 +500,12 @@
   <div class="copyright">
     <div class="">
       <h6 class="copyrightText" id="copyrightText">
-        Copyright ©2023&nbsp;MHRealty All rights reserved.
+        Copyright ©2022&nbsp;MHRealty All rights reserved.
       </h6>
     </div>
     <div class="linkCompanyTab">
       <a class="linkCompany" href="https://ansits.com" target="_blank">
-        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="40%" alt="ansit.com"
+        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="160px" height="41px" alt="ansit.com"
             class="img-powered" alt="ansit.com"></h6>
       </a>
     </div>
@@ -520,7 +523,7 @@
     crossorigin="anonymous"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var startYear = 2023;
+      var startYear = 2022;
       var currentYear = new Date().getFullYear();
       var copyrightText = document.getElementById('copyrightText');
 

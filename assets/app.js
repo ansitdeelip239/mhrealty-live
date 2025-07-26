@@ -1,8 +1,10 @@
+const hmctoken ='e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac'
 var bhktypes = [], propertytypes = [], furnishtypes = [], listedBytypes = [], isskipCity = false, maximumPriceRent = 500000, maximumPriceBuy = 50000000
 var ConstantIP = '';
 var ConstantFeaturedProperty = '';
 var constantVideoID = '';
 var partnerId = 'info@mhrealty.in';
+var domain='mhrealty.in';
 
 // Execute after the DOM is loaded
 document.addEventListener('DOMContentLoaded', loadNavbar);
@@ -50,10 +52,14 @@ function setActiveClass() {
 
 // Live---------
 // let apiUrl = 'https://dncrpropertyapi.azurewebsites.net/'
-let apiUrl = 'https://freehostingweb.bsite.net/'
+// let apiUrl = 'https://freehostingweb.bsite.net/'
+// let apiUrl = "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
+// Live
+// let apiUrl ="https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/";
+let apiUrl ="https://api.mtone.in/";
 
 // Dev----------
-// let apiUrl = 'https://devdncrbe.azurewebsites.net/'
+// let apiUrl = 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net/'
 // *********************************************************
 
 // function urlRedirection(token) {
@@ -73,6 +79,7 @@ function getapicall(url) {
 
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
     xhr.send();
     xhr.onreadystatechange = function () {
       var status = xhr.status;
@@ -92,6 +99,7 @@ function isInitialPage() {
 }
 
 window.onload = function () {
+  // debugger;
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get('pro');
   const img = urlParams.get('img');
@@ -109,15 +117,24 @@ window.onload = function () {
 
   if (id) {
     var details;
-    fetch(`${apiUrl}/api/v1/partner/getPartnerPropertyByid?id=${id}`).
-      then(res => {
+    fetch(`${apiUrl}partners/properties/${id}`, {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer ' + hmctoken, // <-- token passed here
+    'Content-Type': 'application/json'
+  }
+})
+    
+      .then(res => {
         return res.json()
       }).then(data => {
+        // debugger;
         details = data.data;
+        const images = JSON.parse(data.data.imageURL);
 
         // details.ImageURL = details.ImageURL.split(",");
-        document.getElementById("store-images").value = details.ImageURLType;
-        let videoID = data.data.VideoURL ? youTubeVideoIdExtractor(data.data.VideoURL) : null
+        document.getElementById("store-images").value = details.imageURL;
+        let videoID = data.data.videoURL ? youTubeVideoIdExtractor(data.data.videoURL) : null
 
         let TagList = '';
         if (details.Tags && details.Tags.length > 0) {
@@ -125,11 +142,13 @@ window.onload = function () {
             TagList += tagObj.Tag + ' &nbsp;' + ' &nbsp;';
           });
         }
-
-        const toggledImage = data.data.ImageURLType.find(img => img.toggle === true);
-
+        const toggledImage = images.find(img => img.toggle === true);
+        // console.log(toggledImage);
+        
+       
+        
         if (slider === "true") {
-          if (details.ImageURLType.length > 0) {
+          if (images.length > 0) {
             $("#main-card").html(`
             <div>
             ${videoID ? `<iframe width="300" height="400" src=${videoID} style="width:100%" title="YouTube video player"
@@ -138,7 +157,7 @@ window.onload = function () {
         
             <div class="row">
               <div class="col-md-4">
-                <img src=${toggledImage ? toggledImage.ImageUrl : details.ImageURLType[0].ImageUrl}
+                <img src=${toggledImage ? toggledImage.imageUrl : images[0].imageUrl}
                   style="height: 200px;width:100%;cursor:zoom-in" data-toggle="modal" data-target="#popupimages"
                   onclick="imageslistpopup(${index},${slider},${reSale})">
         
@@ -157,7 +176,7 @@ window.onload = function () {
               </div>
         
               <div class="col-md-8 float-left row" style="margin-bottom: 120px;font-size: 15px;">
-                <div class="col-md-12" style=" text-align: justify;">${data.data.Discription}
+                <div class="col-md-12" style=" text-align: justify;">${data.data.longDescription}
                 </div>
         
                 <div class="col-md-12" style="margin-top: 20px;">
@@ -165,7 +184,7 @@ window.onload = function () {
                   </div>
                 </div>
         
-                ${data.data.Discription.length > 1500 ? `
+                ${data.data.longDescription.length > 1500 ? `
                 <div class="row col-md-12">
                   <button class="btn btn-success mobileBTN1 mobileBTN2edit1" data-toggle="modal" data-target="#popupimages"
                     onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
@@ -180,16 +199,22 @@ window.onload = function () {
           }
         }
         if (reSale === "true") {
-          if (details.ImageURLType.length > 0) {
+          if (details.imageURL.length > 0) {
             $("#main-card").html(`
   <div>
-    ${videoID ? `<iframe width="300" height="400" src=${videoID} style="width:100%" title="YouTube video player"
+    ${
+      videoID
+        ? `<iframe width="300" height="400" src=${videoID} style="width:100%" title="YouTube video player"
       frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>` : ''}
+      allowfullscreen></iframe>`
+        : ""
+    }
       
     <div class="row">
       <div class="col-md-4">
-        <img src=${toggledImage ? toggledImage.ImageUrl : details.ImageURLType[0].ImageUrl} style="height: 200px;width:100%;cursor:zoom-in" data-toggle="modal" data-target="#popupimages" onclick="imageslistpopup(${index},${slider},${reSale})">
+        <img src=${
+          toggledImage ? toggledImage.imageUrl : details.imageURL[0].imageUrl
+        } style="height: 200px;width:100%;cursor:zoom-in" data-toggle="modal" data-target="#popupimages" onclick="imageslistpopup(${index},${slider},${reSale})">
      
         <div class="ButtonTabs" style="display: flex;">
                   <div>
@@ -206,7 +231,9 @@ window.onload = function () {
       </div>
 
       <div class="col-md-8 float-left row" style="margin-bottom: 120px;font-size: 15px;">
-        <div class="col-md-12" style=" text-align: justify;">${data.data.Discription}
+        <div class="col-md-12" style=" text-align: justify;">${
+          data.data.longDescription
+        }
         </div>
 
         <div class="col-md-12" style="margin-top: 20px;">
@@ -214,15 +241,19 @@ window.onload = function () {
           </div>
         </div> 
 
-        ${data.data.Discription.length > 1500 ? `
+        ${
+          data.data.longDescription.length > 1500
+            ? `
         <div class="row col-md-12">   
           <button class="btn btn-success mobileBTN1 mobileBTN2edit1" data-toggle="modal" data-target="#popupimages" onclick="imageslistpopup(${index},${slider},${reSale})">View More Images
           </button>      
           <a class="btn btn-success position-absolute mobileBTN2 mobileBTN2edit2" href="#" data-toggle="modal" data-target="#modalContact" onclick="openContactModal('BUYER')">Enquire Now
           </a>      
-        </div>` : ''}
+        </div>`
+            : ""
+        }
     </div>
-  </div> `)
+  </div> `);
           }
         }
       });
@@ -293,6 +324,7 @@ function openContactModal(val) {
   document.getElementById("notValidEmail11").style.display = "none";
 }
 function sendMessageGetinTouchForm() {
+   document.getElementById("loaderOverlay").style.display = "flex";
   var message, name, subject, emailaddress, mobile
   message = document.forms["getinTouchForm"]["getinTouchFormmessage"].value;
   emailaddress = document.forms["getinTouchForm"]["getinTouchFormemail"].value;
@@ -301,13 +333,13 @@ function sendMessageGetinTouchForm() {
   mobile = document.forms["getinTouchForm"]["getinTouchFormmobile"].value;
 
   var mybody = {
-    Email: emailaddress,
-    Message: message,
-    Name: name,
-    Subject: subject,
-    Phone: mobile,
-    PartnerId: partnerId
-  }
+    email: emailaddress,
+    message: message,
+    name: name,
+    subject: subject,
+    phone: mobile,
+    domain: domain,
+  };
   if (message == '') {
     document.getElementById("message-req-getintouch").style.display = "block";
   }
@@ -330,19 +362,21 @@ function sendMessageGetinTouchForm() {
     }
   }
   const reg = /\S+@\S+\.\S+/;
-  var isvalid = reg.test(mybody?.Email);
+  var isvalid = reg.test(mybody?.email);
 
-  if (mybody?.Email !== '' && mybody?.Message !== '' && mybody?.Name !== '' && mybody?.Phone !== '' && mybody?.Phone?.length == 10 && isvalid) {
+  if (mybody?.email !== '' && mybody?.message !== '' && mybody?.name !== '' && mybody?.phone !== '' && mybody?.phone?.length == 10 && isvalid) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", `${apiUrl}/api/v1/partner/PartnerGetinTouch`);
+    xhr.open("POST", `${apiUrl}properties/GetInTouch`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
     xhr.send(JSON.stringify(mybody));
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
+         document.getElementById("loaderOverlay").style.display = "none";
         if (xhr.status == 200) {
           var json_data = JSON.parse(xhr.responseText);
-          if (json_data.Success) {
+          if (json_data.success) {
             document.getElementById("valid-response-getintoucg").style.display = "flex";
             document.forms["getinTouchForm"].reset();
             grecaptcha.reset();
@@ -362,6 +396,7 @@ function emailCheck(email, isLogin) {
   xhr.open("GET", `${apiUrl}/api/v1/User/varifyUserbyEmail?email=${email}`);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+  xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
   xhr.send();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
@@ -476,9 +511,10 @@ function checkuser() {
   var isvalid = reg.test(email);
   if (isvalid) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", `${apiUrl}/api/v1/User/varifyUserbyEmail?email=${email}`);
+    xhr.open("GET", `${apiUrl}/account/check-email?email=${email}`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
     xhr.send();
     xhr.onreadystatechange = function () {
       if (xhr?.readyState == 4) {
@@ -514,6 +550,7 @@ function closepopupimage() {
   document.querySelector("body").setAttribute("style", "overflow:auto");
 }
 function imageslistpopup(index, slider, resale) {
+  // debugger;
   document.querySelector("body").setAttribute("style", "overflow:visible");
   let photos;
   let video;
@@ -523,14 +560,16 @@ function imageslistpopup(index, slider, resale) {
     video = localStorage.getItem(`videoSlider${index}`);
   }
   if (resale) {
-    photos = JSON.parse(localStorage.getItem(`imageResale${index}`));
+    photos = JSON.parse(JSON.parse(localStorage.getItem(`imageResale${index}`)));
     video = localStorage.getItem(`videoResale${index}`);
   }
   let imgtype = [];
   let images = [];
+  console.log(photos);
+  
   photos.forEach((im) => {
-    if (!imgtype.includes(im.Type)) {
-      imgtype.push(im.Type)
+    if (!imgtype.includes(im.type)) {
+      imgtype.push(im.type)
     }
   })
   for (var i = 0; i < 2; i++) {
@@ -554,7 +593,7 @@ function imageslistpopup(index, slider, resale) {
   //remove image dom
   $('#show-image').empty()
   imgtype.forEach((type) => {
-    if (images[0].Type == type) {
+    if (images[0].type == type) {
       $('#popup-tab').append(`<a class="nav-link" style="color: white;cursor: pointer; border-bottom: 1px solid white;" onclick="imagetabb('${index}','${type}')">${type}</a>`)
     }
     else {
@@ -568,23 +607,24 @@ function imageslistpopup(index, slider, resale) {
   for (var i = 0; i < 2; i++) {
     if (images[i].Type != 'Video') {
       if (i == 0) {
-        $('#show-image').append(`<img class="image-size" src="${images[i].ImageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" + style="margin-left:400px;"><br><span style="position:absolute;top:450px;color: white;z-index: 10;left: 30%;">${images[i].Type}</span>`)
+        $('#show-image').append(`<img class="image-size" src="${images[i].imageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" + style="margin-left:400px;"><br><span style="position:absolute;top:450px;color: white;z-index: 10;left: 30%;">${images[i].type}</span>`)
       }
       else {
         if (images.length > i) {
-          $('#show-image').append(`<img class="ml-4 image-size" src="${images[i].ImageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" + style="filter:blur(2px)"><span style="top:450px;position: absolute;bottom: 0px;color: white;z-index: 10;right: 30%;">${images[i].Type}</span>`)
+          $('#show-image').append(`<img class="ml-4 image-size" src="${images[i].imageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" + style="filter:blur(2px)"><span style="top:450px;position: absolute;bottom: 0px;color: white;z-index: 10;right: 30%;">${images[i].type}</span>`)
         }
 
       }
     }
     else {
       const videoID = youTubeVideoIdExtractor(images[i].imageURL)
-      $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+      $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
 
     }
   }
 }
 function nextimagearrow(propertyindex, imageindex) {
+  // debugger;
   const urlParams = new URLSearchParams(window.location.search);
   const slider = urlParams.get('slid');
   const reSale = urlParams.get('resale');
@@ -595,19 +635,19 @@ function nextimagearrow(propertyindex, imageindex) {
     video = localStorage.getItem(`videoSlider${propertyindex}`);
   }
   if (reSale == 'true') {
-    images = JSON.parse(localStorage.getItem(`imageResale${propertyindex}`));
+    images = JSON.parse(JSON.parse(localStorage.getItem(`imageResale${propertyindex}`)));
     video = localStorage.getItem(`videoResale${propertyindex}`);
   }
   if (video) {
     let obj = new Object();
-    obj.imageURL = video;
-    obj.Type = 'Video';
+    obj.imageUrl = video;
+    obj.type = 'Video';
     images.push(obj)
   }
   let imgtype = []
   images.forEach((im) => {
-    if (!imgtype.includes(im.Type)) {
-      imgtype.push(im.Type)
+    if (!imgtype.includes(im.type)) {
+      imgtype.push(im.type)
     }
   })
   if (video) {
@@ -630,7 +670,7 @@ function nextimagearrow(propertyindex, imageindex) {
     $('#previous-photo').append(`<span id="next-btn" style="color: white;font-size: 50px;position: absolute;left: 0;top: 40%;cursor: pointer;z-index:100" onclick="nextimagearrow(${propertyindex},${imageindex - 1})"><</span>`)
   }
   imgtype.forEach((type) => {
-    if (images[imageindex]?.Type == type) {
+    if (images[imageindex]?.type == type) {
       $('#popup-tab').append(`<a class="nav-link" style="color: white;cursor: pointer; border-bottom: 1px solid white;" onclick="imagetabb('${propertyindex}','${type}')">${type}</a>`)
     }
     else {
@@ -639,35 +679,35 @@ function nextimagearrow(propertyindex, imageindex) {
   })
   if (imageindex > 0) {
     for (var i = imageindex - 1; i < imageindex + 2; i++) {
-      if (images[i]?.Type !== 'Video') {
+      if (images[i]?.type !== 'Video') {
         if (i == imageindex) {
-          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.ImageUrl}" class="image-size" style="width:100%" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.imageUrl}" class="image-size" style="width:100%" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].type}</span></div>`)
         }
         else {
-          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.ImageUrl}" class="image-size"  style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i]?.imageUrl}" class="image-size"  style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + ><span style="position: absolute;top:360px;color: white;z-index: 10;left: 40%;">${images[i].type}</span></div>`)
         }
       }
       else {
-        const videoID = youTubeVideoIdExtractor(images[i]?.imageURL)
-        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+        const videoID = youTubeVideoIdExtractor(images[i]?.imageUrl)
+        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
       }
     }
   }
   else {
     for (var i = imageindex; i < imageindex + 2; i++) {
-      if (images[i]?.Type !== 'Video') {
+      if (images[i]?.type !== 'Video') {
         if (i == imageindex) {
-          $('#show-image').append(`<img  src="${images[i]?.ImageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + class="image-size" style="margin-left:400px;">
-          <span style="position: absolute;top:450px;color: white;z-index: 10;left: 40%;">${images[i]?.Type}</span>`)
+          $('#show-image').append(`<img  src="${images[i]?.imageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + class="image-size" style="margin-left:400px;">
+          <span style="position: absolute;top:450px;color: white;z-index: 10;left: 40%;">${images[i]?.type}</span>`)
         }
         else {
-          $('#show-image').append(`<img  src="${images[i]?.ImageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.ImageUrl}','${images[i]?.Type}')" + class="image-size ml-4" style="filter:blur(2px)">
-        <span style="position: absolute;top:450px;color: white;z-index: 10;right: 20%;">${images[i]?.Type}</span>`)
+          $('#show-image').append(`<img  src="${images[i]?.imageUrl}" + data-toggle="modal" + data-target="#zoomModal" + onclick="openzoomimages('${images[i]?.imageUrl}','${images[i]?.type}')" + class="image-size ml-4" style="filter:blur(2px)">
+        <span style="position: absolute;top:450px;color: white;z-index: 10;right: 20%;">${images[i]?.type}</span>`)
         }
       }
       else {
-        const videoID = youTubeVideoIdExtractor(images[i]?.imageURL)
-        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+        const videoID = youTubeVideoIdExtractor(images[i]?.imageUrl)
+        $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="height: 100%;width:100%;margin-left: 10px;"  allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
       }
     }
   }
@@ -683,15 +723,15 @@ function imagetabb(propindex, type) {
     video = localStorage.getItem(`videoSlider${propindex}`);
   }
   if (reSale == 'true') {
-    images = JSON.parse(localStorage.getItem(`imageResale${propindex}`));
+    images = JSON.parse(JSON.parse(localStorage.getItem(`imageResale${propindex}`)));
     video = localStorage.getItem(`videoResale${propindex}`);
   }
   let filterimage = [];
   let imgtype = [];
-  let index = images.findIndex(x => x.Type == type);
+  let index = images.findIndex(x => x.type == type);
   images.forEach((im) => {
-    if (!imgtype.includes(im.Type)) {
-      imgtype.push(im.Type)
+    if (!imgtype.includes(im.type)) {
+      imgtype.push(im.type)
     }
   })
   if (video) {
@@ -722,6 +762,8 @@ function imagetabb(propindex, type) {
     $('#previous-photo').append(`<span id="next-btn" style="color: white;font-size: 50px;position: absolute;left: 0;top: 40%;cursor: pointer;z-index:100" onclick="nextimagearrow(${propindex},${index - 1})"><</span>`)
   }
   //tab
+  console.log('********88', imgtype, type);
+  
   imgtype.forEach((type1) => {
     if (type == type1) {
       $('#popup-tab').append(`<a class="nav-link" style="color: white;cursor: pointer; border-bottom: 1px solid white;" onclick="imagetabb('${propindex}','${type1}')">${type1}</a>`)
@@ -738,31 +780,31 @@ function imagetabb(propindex, type) {
       for (var i = index; i < index + 2; i++) {
         if (images[i].Type != 'Video') {
           if (i == 0) {
-            $('#show-image').append(`<div class="col-4"></div><div class="col-4 "><img  src="${images[i].ImageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" style="width:100%" class="image-size"></div><span style="position: absolute;top: 440px;color: white;z-index: 10;left: 40%;">${images[i].Type}</span>`)
+            $('#show-image').append(`<div class="col-4"></div><div class="col-4 "><img  src="${images[i].imageUrl}" + data-toggle="modal" data-target="#zoomModal" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" style="width:100%" class="image-size"></div><span style="position: absolute;top: 440px;color: white;z-index: 10;left: 40%;">${images[i].type}</span>`)
           }
           else {
-            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].ImageUrl}" style="width:100%;filter:blur(2px);"  class="image-size"+ onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" +><span style="position: absolute;color: white;z-index: 10;top: 440px;left:40%">${images[i].Type}</span></div>`)
+            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].imageUrl}" style="width:100%;filter:blur(2px);"  class="image-size"+ onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" +><span style="position: absolute;color: white;z-index: 10;top: 440px;left:40%">${images[i].type}</span></div>`)
           }
         }
         else {
           const videoID = youTubeVideoIdExtractor(video)
-          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 400px;height: 400px" allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 400px;height: 400px" allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
         }
       }
     }
     else {
       for (var i = index - 1; i < index + 2; i++) {
-        if (images[i].Type != 'Video') {
+        if (images[i].type != 'Video') {
           if (i == index) {
-            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].ImageUrl}" class="image-size" style="width:100%;" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" +><span style="position: absolute;top:350px;left:40%;color: white;z-index: 10">${images[i].Type}</span></div>`)
+            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].imageUrl}" class="image-size" style="width:100%;" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" +><span style="position: absolute;top:350px;left:40%;color: white;z-index: 10">${images[i].type}</span></div>`)
           }
           else {
-            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].ImageUrl}" class="image-size" style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i].ImageUrl}','${images[i].Type}')" +><span style="position: absolute;color: white;z-index: 10;top:350px;left:40%;">${images[i].Type}</span></div>`)
+            $('#show-image').append(`<div class="col-4" data-toggle="modal" data-target="#zoomModal"><img src="${images[i].imageUrl}" class="image-size" style="width:100%;filter:blur(2px)" + onclick="openzoomimages('${images[i].imageUrl}','${images[i].type}')" +><span style="position: absolute;color: white;z-index: 10;top:350px;left:40%;">${images[i].type}</span></div>`)
           }
         }
         else {
           const videoID = youTubeVideoIdExtractor(video)
-          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%;" class="image-size" allowfullscreen></iframe><span class="video-text">${images[i].Type}</span></div>`)
+          $('#show-image').append(`<div class="col-4 position-relative"><iframe width="206" src="${videoID}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width: 100%;" class="image-size" allowfullscreen></iframe><span class="video-text">${images[i].type}</span></div>`)
         }
       }
     }
@@ -814,6 +856,7 @@ function reset() {
 }
 
  function youTubeVideoIdExtractor(url) {
+  // debugger;
   const params = url
   const splitedURL = params.split('/')
   let videoID = splitedURL[splitedURL.length - 1]
@@ -868,9 +911,10 @@ function isValidEmail(id, textID) {
 
 function emailVerify(email, textID) {
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", `${apiUrl}/api/v1/Account/EmailValidation?Email=${email}`);
+  xhr.open("GET", `${apiUrl}/account/check-email?email=${email}`);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+  xhr.setRequestHeader('Authorization', 'Bearer ' + hmctoken); 
   xhr.send();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
@@ -904,7 +948,7 @@ function contactEmail() {
 
 function emailCheckContact(email) {
   var xhr = new XMLHttpRequest();
-  xhr.open("GET", `${apiUrl}/api/v1/User/varifyUserbyEmail?email=${email}`);
+  xhr.open("GET", `${apiUrl}account/check-email?email=${email}`);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
   xhr.send();
@@ -927,324 +971,263 @@ let currentPageIndex = 0;
 let ListofAll = [];
 async function GetAllFeaturedProperty() {
   try {
-    const response = await fetch(`${apiUrl}/api/v1/partner/GetAllPartnerFeaturedProperty?partnerId=${partnerId}&pageNumber=1&pageSize=500&readyToMove='No'`);
+    const response = await fetch(
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&isFeatured=true`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + hmctoken,
+        }
+      }
+    );
     const data = await response.json();
-    saveImagesAndVideos(data?.data?.propertyModels);
-    ListofAll = data?.data?.propertyModels || [];
+    const properties = data?.data?.properties || [];
+    saveImagesAndVideos(properties);
+    ListofAll = properties;
 
-    const headingsContainerArrows = document.querySelector('.headingsContainerArrows');
+    const headingsContainerArrows = document.querySelector(
+      ".headingsContainerArrows"
+    );
 
-    headingsContainerArrows.innerHTML += `<div class="slider-arrows" id="FeaturedPropertyArrow">
-      <button class="slider-arrowLeft" id="prevArrow" style="
-      background: white;
-      border-radius: 50%;
-      border: 1px solid #CACACA;
-      font-size: 30px;
-      padding: 5px 16px 8px 15px;
-      color: #CACACA;">&lt;
-      </button>
-      <button class="slider-arrowRight" id="nextArrow" style="
-      background: white;
-      border-radius: 50%;
-      border: 1px solid #CACACA;
-      font-size: 30px;
-      padding: 5px 16px 8px 15px;
-      color: #CACACA;">&gt;
-      </button>
-    </div>`;
+    // Only show arrows if there are more than 4 properties
+    if (properties.length > 4) {
+      headingsContainerArrows.innerHTML = `
+        <div class="slider-arrows" id="FeaturedPropertyArrow">
+          <button class="slider-arrowLeft" id="prevArrow" style="display: none;background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&lt;</button>
+          <button class="slider-arrowRight" id="nextArrow" style="background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&gt;</button>
+        </div>
+      `;
 
-    const FeaturedPropertyArrow = document.getElementById('FeaturedPropertyArrow');
-    if (ListofAll?.length < 5) {
-      FeaturedPropertyArrow.style.display = 'none';
-    } else {
-      FeaturedPropertyArrow.style.display = 'block';
+      const nextArrow = document.getElementById("nextArrow");
+      const prevArrow = document.getElementById("prevArrow");
+
+      nextArrow.addEventListener("click", () => {
+        if (currentPageIndex + 4 < properties.length) {
+          currentPageIndex += 4;
+          renderProperties({ data: { properties } });
+        }
+      });
+
+      prevArrow.addEventListener("click", () => {
+        if (currentPageIndex > 0) {
+          currentPageIndex -= 4;
+          renderProperties({ data: { properties } });
+        }
+      });
     }
 
-    const nextArrow = document.getElementById('nextArrow');
-    const prevArrow = document.getElementById('prevArrow');
-
-    // Right arrow click event listener
-    nextArrow.addEventListener('click', () => {
-      currentPageIndex = (currentPageIndex + 4) % data?.data?.propertyModels?.length;
-      renderProperties(data);
-      nextArrow.style.color = '#EE5925';
-      nextArrow.style.borderColor = '#CACACA';
-      prevArrow.style.color = '#CACACA';
-    });
-
-    // Left arrow click event listener
-    prevArrow.addEventListener('click', () => {
-      currentPageIndex = (currentPageIndex - 4 + data?.data?.propertyModels?.length) % data?.data?.propertyModels?.length;
-      renderProperties(data);
-      prevArrow.style.color = '#EE5925';
-      prevArrow.style.borderColor = '#CACACA';
-      nextArrow.style.color = '#CACACA';
-    });
-
-    // Initial rendering of properties
-    renderProperties(data);
+    renderProperties({ data: { properties } });
   } catch (error) {
     console.error(error);
   }
 }
-// function renderProperties(data) {
-//   const headingsContainerApi = document.querySelector('.headingsContainerApi');
-//   headingsContainerApi.innerHTML = '';
-//   const totalProperties = data?.data?.propertyModels.length;
-//   // Determine the number of iterations based on the number of properties
-//   const iterations = Math.min(4, totalProperties);
-
-//   for (let i = currentPageIndex; i < currentPageIndex + iterations; i++) {
-//     const indexToShow = i % totalProperties;
-//     const x = data?.data?.propertyModels[indexToShow];
-//     const toggledImage = x.ImageURLType.find(img => img.toggle === true);
-//     headingsContainerApi.innerHTML += `
-//       <div class="col-md-5 popularPropertiesBody" style="
-//         border: 1px solid #D9D9D9;
-//         background: var(--primary-Whitecolor);
-//         display: flex;
-//         flex-wrap: wrap;
-//         padding: 0px;
-//         margin-bottom: 10px;"
-//         onclick="renderPropertiesRedirection(${x.ID},${'true'})">
-//         <div class="col-md-4" style="flex-shrink: 0;padding: 0px;">
-//           <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 100%;" alt="">
-//         </div>
-//         <div class="col-md-8 xyz">
-//           <div class="" style="
-//             color: #231F20;
-//             font-size: 24px;
-//             font-style: normal;
-//             font-weight: 700;
-//             line-height: 28px;
-//             padding-top: 15px;">
-//             ${x.SellerName}
-//             <div class="" style="color: #484848;
-//               font-size: 18px;
-//               font-style: normal;
-//               font-weight: 400;
-//               line-height: 21px; 
-//               padding-top: 10px;">
-//               ${x.ShortDiscription}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     `;
-//   }
-// }
 function renderProperties(data) {
-  const headingsContainerApi = document.querySelector('.headingsContainerApi');
-  headingsContainerApi.innerHTML = '';
-  const totalProperties = data?.data?.propertyModels.length || 0;
-  const propertiesPerPage = 4; // Show 4 properties at a time
-  const startIndex = currentPageIndex * propertiesPerPage;
-  const endIndex = Math.min(startIndex + propertiesPerPage, totalProperties);
-  for (let i = startIndex; i < endIndex; i++) {
-    const x = data?.data?.propertyModels[i];
-    const toggledImage = x.ImageURLType.find(img => img.toggle === true);
-    headingsContainerApi.innerHTML += `
+  const headingsContainerApi = document.querySelector(".headingsContainerApi");
+  const properties = data?.data?.properties || [];
+
+  // Get only 4 properties starting from currentPageIndex
+  const visibleProperties = properties.slice(
+    currentPageIndex,
+    currentPageIndex + 4
+  );
+
+  headingsContainerApi.innerHTML = '<div class="properties-grid">';
+
+  // Only render the visible properties
+  visibleProperties.forEach((property) => {
+    const images = JSON.parse(property.imageURL);
+    const toggledImage = images.find((img) => img.toggle === true);
+    const defaultImage =
+      "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
+
+    // const tempDiv = document.createElement("div");
+    // tempDiv.innerHTML = property.shortDescription;
+    // const cleanDescription = tempDiv.textContent || tempDiv.innerText;
+
+    headingsContainerApi.querySelector(".properties-grid").innerHTML += `
       <div class="popularPropertiesBody">
         <div class="image-container">
-          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" alt="">
-          <div class="overlay">
-            <button onclick="renderPropertiesRedirection(${x.ID}, ${'true'})">Click for More Info</button>
+          <img src="${
+            toggledImage ? toggledImage.imageUrl : defaultImage
+          }" alt="${property.propertyName}">
+          <div class="overlay" onclick="renderProperties1Redirection(${
+              property.id
+            }, true)">
+            <button onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">Click for More Info</button>
           </div>
         </div>
-        <div class="xyz">
-          <h3>${x.SellerName}</h3>
-          <p>${x.ShortDiscription || 'No description available'}</p>
+        <div class="xyz" onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">
+          <h3>${property.propertyName}</h3>
+          <div class="property-description">${property.shortDescription}</div>
+          <div class="property-details">
+          </div>
         </div>
       </div>
     `;
+  });
+
+  headingsContainerApi.innerHTML += "</div>";
+
+  // Update arrow visibility
+  const nextArrow = document.getElementById("nextArrow");
+  const prevArrow = document.getElementById("prevArrow");
+
+  if (nextArrow && prevArrow) {
+    prevArrow.style.display = currentPageIndex === 0 ? "none" : "inline-block";
+    nextArrow.style.display =
+      currentPageIndex + 4 >= properties.length ? "none" : "inline-block";
   }
 }
-function saveImagesAndVideos(propertyModels) {
-  let i = 0;
-  propertyModels.forEach(x => {
-    let raw = x?.ImageURLType;
-    localStorage.setItem(`imageSlider${i}`, JSON.stringify(raw));
-    localStorage.setItem(`videoSlider${i}`, x.VideoURL);
-    i++;
-  })
+function saveImagesAndVideos(properties) {
+  properties.forEach((property, i) => {
+    const images = JSON.parse(property.imageURL);
+    localStorage.setItem(`imageSlider${i}`, JSON.stringify(images));
+    localStorage.setItem(`videoSlider${i}`, property.videoURL || "");
+  });
 }
-function renderPropertiesRedirection(Id, slider) {
-  const propertyIndex = ListofAll.findIndex(property => property.ID === Id);
-  window.open(`./property_details.html?pro=${Id}&in=${propertyIndex}&slid=${slider}`, '_blank');
+function renderPropertiesRedirection(id, slider) {
+  
+  const propertyIndex = ListofAll.findIndex(property => property.id === id);
+  console.log(id, slider, ListofAll);
+  window.open(`./property_details.html?pro=${id}&in=${propertyIndex}&slid=${slider}`, '_blank');
 }
 let currentPageIndex1 = 0;
 let ListofAll1 = [];
 async function GetAllResaleProperty() {
+  // debugger;
   try {
-    const response = await fetch(`${apiUrl}/api/v1/partner/GetAllPartnerFeaturedProperty?partnerId=${partnerId}&pageNumber=1&pageSize=500&readyToMove=Yes`);
+    const response = await fetch(
+      `${apiUrl}partners/properties/featured?emailDomain=mhrealty.in&pageNumber=1&pageSize=500&readyToMove=yes`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + hmctoken,
+        }
+      }
+      
+      
+    );
     const data = await response.json();
-    saveImagesAndVideos1(data?.data?.propertyModels);
-    ListofAll1 = data?.data?.propertyModels || [];
+    const properties = data?.data?.properties || [];
+    saveImagesAndVideos1(properties);
+    ListofAll1 = properties;
 
-    const headingsContainerResaleArrows = document.querySelector('.headingsContainerResaleArrows');
+    const headingsContainerResaleArrows = document.querySelector(
+      ".headingsContainerResaleArrows"
+    );
 
-    headingsContainerResaleArrows.innerHTML += `<div class="slider-arrows" id="ResalePropertyArrow">
-      <button class="slider-arrow" id="prevArrow1" style="
-       background: white;
-       border-radius: 50%;
-       border: 1px solid #CACACA;
-       font-size: 30px;
-       padding: 5px 16px 8px 15px;
-       color: #CACACA;"">&lt;
-      </button>
-      <button class="slider-arrow" id="nextArrow1" style="
-        background: white;
-        border-radius: 50%;
-        border: 1px solid #CACACA;
-        font-size: 30px;
-        padding: 5px 16px 8px 15px;
-        color: #CACACA;"">&gt;
-      </button>
-    </div>`;
+    // Only show arrows if there are more than 4 properties
+    if (properties.length > 4) {
+      headingsContainerResaleArrows.innerHTML = `
+        <div class="slider-arrows" id="ResalePropertyArrow">
+          <button class="slider-arrowLeft" id="prevArrowResale" style="display: none; background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&lt;</button>
+          <button class="slider-arrowRight" id="nextArrowResale" style="background: white; border-radius: 50%; border: 1px solid #CACACA; font-size: 30px; padding: 5px 16px 8px 15px; color: #CACACA;">&gt;</button>
+        </div>
+      `;
 
-    const ResalePropertyArrow = document.getElementById('ResalePropertyArrow');
-    if (ListofAll1?.length < 9) {
-      ResalePropertyArrow.style.display = 'none';
-    } else {
-      ResalePropertyArrow.style.display = 'block';
+      const nextArrow = document.getElementById("nextArrowResale");
+      const prevArrow = document.getElementById("prevArrowResale");
+
+      nextArrow.addEventListener("click", () => {
+        if (currentPageIndex1 + 4 < properties.length) {
+          currentPageIndex1 += 4;
+          renderProperties1({ data: { properties } });
+        }
+      });
+
+      prevArrow.addEventListener("click", () => {
+        if (currentPageIndex1 > 0) {
+          currentPageIndex1 -= 4;
+          renderProperties1({ data: { properties } });
+        }
+      });
     }
 
-    const nextArrow1 = document.getElementById('nextArrow1');
-    const prevArrow1 = document.getElementById('prevArrow1');
-
-    // Right arrow click event listener
-    nextArrow1.addEventListener('click', () => {
-      const totalProperties = data?.data?.propertyModels.length;
-      currentPageIndex1 = (currentPageIndex1 + 8) % totalProperties;
-      renderProperties1(data);
-      nextArrow1.style.color = '#EE5925';
-      nextArrow1.style.borderColor = '#CACACA';
-      prevArrow1.style.color = '#CACACA';
-    });
-
-    // Left arrow click event listener
-    prevArrow1.addEventListener('click', () => {
-      const totalProperties = data?.data?.propertyModels.length;
-      currentPageIndex1 = (currentPageIndex1 - 8 + totalProperties) % totalProperties;
-      renderProperties1(data);
-      prevArrow1.style.color = '#EE5925';
-      prevArrow1.style.borderColor = '#CACACA';
-      nextArrow1.style.color = '#CACACA';
-    });
-    // Initial rendering of properties
-    renderProperties1(data);
+    renderProperties1({ data: { properties } });
   } catch (error) {
     console.error(error);
   }
 }
+
 function renderProperties1(data) {
-  const headingsContainerResaleApi = document.querySelector('.headingsContainerResaleApi');
-  headingsContainerResaleApi.innerHTML = '';
+  const headingsContainerResaleApi = document.querySelector(
+    ".headingsContainerResaleApi"
+  );
+  const properties = data?.data?.properties || [];
 
-  const totalProperties = data?.data?.propertyModels.length;
-  const start = currentPageIndex1;
-  const end = (currentPageIndex1 + 8) % totalProperties;
+  const visibleProperties = properties.slice(
+    currentPageIndex1,
+    currentPageIndex1 + 4
+  );
 
-  const propertiesToShow = end > start
-    ? data?.data?.propertyModels.slice(start, end)
-    : [...data?.data?.propertyModels.slice(start), ...data?.data?.propertyModels.slice(0, end)];
+  headingsContainerResaleApi.innerHTML = '<div class="properties-grid">';
 
-  if (data?.data?.propertyModels.length <= 8) {
-    // for(z = 0 ; z < propertiesToShow.length; z++){
-    // Repeat the single property to fill the space
-    for (let i = 0; i < data?.data?.propertyModels.length; i++) {
-      const property = propertiesToShow[i];
-      const toggledImage = property?.ImageURLType.find(img => img.toggle === true);
-      const propertyHtml = `
-        <div style="border: 1px solid #D9D9D9;
-                    background: #FFF;
-                    margin-bottom: 20px;object-fit: cover;"
-                    class="popularPropertiesBody"
-                    onclick="renderProperties1Redirection(${property?.ID},${'true'})">
-          <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 250px;" alt="">
-          <div style="padding-top: 25px;padding-bottom: 25px;padding-left: 15px;padding-right: 15px;">
-            <div style="color: #231F20;
-                        font-family: 'Nexa Bold';
-                        font-size: 22px;
-                        font-style: normal;
-                        font-weight: 700;
-                        line-height: 26px;
-                        width: 80%;">
-                        ${property.SellerName}
-            </div>
-            <div style="color: #484848;
-                        font-family: 'NexaRegular';
-                        font-size: 16px;
-                        font-style: normal;
-                        font-weight: 400;
-                        line-height: 22px;
-                        margin-top: 10px;">
-                        ${property.ShortDiscription}
-            </div>
+  visibleProperties.forEach((property) => {
+    const images = JSON.parse(property.imageURL);
+    const toggledImage = images.find((img) => img.toggle === true);
+    const defaultImage =
+      "https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp";
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = property.shortDescription || "";
+    const cleanDescription = tempDiv.textContent || tempDiv.innerText;
+
+    headingsContainerResaleApi.querySelector(".properties-grid").innerHTML += `
+      <div class="popularPropertiesBody">
+        <div class="image-container">
+          <img src="${
+            toggledImage ? toggledImage.imageUrl : defaultImage
+          }" alt="${property.propertyName}">
+          <div class="overlay" onclick="renderProperties1Redirection(${
+              property.id
+            }, true)">
+            <button onclick="renderProperties1Redirection(${
+              property.id
+            }, true)">Click for More Info</button>
           </div>
         </div>
-      `;
-      headingsContainerResaleApi.innerHTML += propertyHtml;
-    }
-    // }
-  } else {
-    for (let i = 0; i < propertiesToShow.length; i += 4) {
-      const rowProperties = propertiesToShow.slice(i, i + 4);
-
-      const rowHtml = rowProperties.map(x => {
-        const toggledImage = x?.ImageURLType.find(img => img.toggle === true);
-
-        return `
-          <div style="border: 1px solid #D9D9D9;
-                      background: #FFF;
-                      width: 298px; margin-bottom: 20px;object-fit: cover;"
-                      class="popularPropertiesBody"
-                      onclick="renderProperties1Redirection(${x?.ID},${'true'})">
-            <img src="${toggledImage ? toggledImage.ImageUrl : './assets/MHRealty/flats for rent in Mumbai-Navi Mumbai.jpg'}" style="width: 100%; height: 250px;" alt="">
-            <div style="padding-top: 25px;padding-bottom: 25px;padding-left: 15px;padding-right: 15px;">
-              <div style="color: #231F20;
-                          font-family: 'Nexa Bold';
-                          font-size: 22px;
-                          font-style: normal;
-                          font-weight: 700;
-                          line-height: 26px;
-                          width: 80%;">
-                          ${x.SellerName}
-              </div>
-              <div style="color: #484848;
-                          font-family: 'NexaRegular';
-                          font-size: 16px;
-                          font-style: normal;
-                          font-weight: 400;
-                          line-height: 22px;
-                          margin-top: 10px;">
-                          ${x.ShortDiscription}
-              </div>
-            </div>
+        <div class="xyz" class="xyz" onclick="renderPropertiesRedirection(${
+              property.id
+            }, true)">
+          <h3 class="property-title">${property.propertyName}</h3>
+          <div class="property-description">${property.shortDescription}</div>
+          <div class="property-details">
+            
           </div>
-        `;
-      }).join('');
-
-      headingsContainerResaleApi.innerHTML += `
-        <div class="popularProperties" style="width: 100%;  display: flex; justify-content: space-evenly;">
-          ${rowHtml}
         </div>
-      `;
-    }
+      </div>
+    `;
+  });
+
+  headingsContainerResaleApi.innerHTML += "</div>";
+
+  // Update arrow visibility
+  const nextArrow = document.getElementById("nextArrowResale");
+  const prevArrow = document.getElementById("prevArrowResale");
+
+  if (nextArrow && prevArrow) {
+    prevArrow.style.display = currentPageIndex1 === 0 ? "none" : "inline-block";
+    nextArrow.style.display =
+      currentPageIndex1 + 4 >= properties.length ? "none" : "inline-block";
   }
 }
 function saveImagesAndVideos1(propertyModels) {
   let i = 0;
   propertyModels.forEach(x => {
-    let raw = x?.ImageURLType;
+    let raw = x?.imageURL;
     localStorage.setItem(`imageResale${i}`, JSON.stringify(raw));
-    localStorage.setItem(`videoResale${i}`, x.VideoURL);
+    localStorage.setItem(`videoResale${i}`, x.videoURL);
     i++;
   })
 }
-function renderProperties1Redirection(Id, reSale) {
-  const propertyIndex = ListofAll1.findIndex(property => property.ID === Id);
-  window.open(`./property_details.html?pro=${Id}&in=${propertyIndex}&resale=${reSale}`, '_blank');
+function renderProperties1Redirection(id, reSale) {
+  // debugger;
+  const propertyIndex = ListofAll1.findIndex(property => property.id === id);
+  window.open(`./property_details.html?pro=${id}&in=${propertyIndex}&resale=${reSale}`, '_blank');
 }
 function toggleNavbar() {
   var navbarLinks = document.getElementById("navbarLinks");
@@ -1299,12 +1282,21 @@ function imgSliderFeedback() {
 }
 async function GetAllFeedback() {
   try {
-    const response = await fetch(`${apiUrl}/api/v1/partner/PartnerCustomerTestimonial?partnerId=${partnerId}&pageNumber=1&pageSize=100&isWebsite=true`);
+    const response = await fetch(
+    `${apiUrl}testimonials/by-createdby?createdBy=info@mhrealty.in&pageNumber=1&pageSize=100&isWebsite=true`,
+    {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + hmctoken,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
     const data = await response.json();
     let i = 0;
-    data?.data?.CustomerTestimonialModels.forEach((x) => {
+    data?.data?.testimonials.forEach((x) => {
       i++;
-      let videoID = x?.VideoURL ? youTubeVideoIdExtractor(x?.VideoURL) : null;
+      let videoID = x?.videoURL ? youTubeVideoIdExtractor(x?.VideoURL) : null;
       if (x?.Status !== 3) {
         if (x?.Video) {
           $("#your-class-feedback").append(`
@@ -1320,39 +1312,30 @@ async function GetAllFeedback() {
                 font-style: normal;
                 font-weight: 400;
                 line-height: normal;">
-                ${x?.CustomerName}
+                ${x?.customerName}
               </span>
             </div>
           </div>
         `);
         } else {
           $("#your-class-feedback").append(`
-          <div>
-            <div style="color: #2B2B2B;
-              font-family: Nexa-Bold;
-              font-size: 19.4px;
-              font-style: normal;
-              font-weight: 400;
-              line-height: 28px;
-              padding: 0px 50px 50px 40px;
-              text-align: justify;">
-              ${x?.FeedbackText ? x?.FeedbackText : ''}
-            </div>
-            <hr style="border-top: 1px solid #D4D4D4; width: 80%;">
-            <div class="feedbackImg feedbackImgNewCSS row" style="display: flex; align-items: center; justify-content: space-around; padding: 0px 0px 10px 40px;">
-              <div class="col-md-2" style="text-align: center;">
-                <span class="feedbackImgBody" style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; display: inline-block;">
-                  <img src="${x?.ImageURL ? x?.ImageURL : 'https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/man.webp'}" alt="" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" >
-                </span>
-              </div>
-              <div class="col-md-10 feedbackImgNewCSS" style="text-align: left;">
-                <span style="color: #2B2B2B; font-family: Nexa-Bold; font-size: 22px; font-style: normal; font-weight: 400; line-height: normal;">
-                ${x?.CustomerName.replace(/ - /, '<br>')}
-                </span>
-                </span>
-              </div>
-            </div>
-        </div>
+      <div style="max-width: 100%; padding: 0 20px; box-sizing: border-box;">
+  <div style="color: #2B2B2B; font-family: 'Nexa-Bold', sans-serif; font-size: clamp(16px, 4vw, 18px); font-style: normal; font-weight: 400; line-height: 1.5; padding: 0 5% 30px 5%; text-align: justify;">
+    ${x?.feedbackText ? x?.feedbackText : ""}
+  </div>
+  <hr style="border-top: 1px solid #D4D4D4; width: 60%; margin: 0 auto 20px;">
+  <div class="feedbackImg feedbackImgNewCSS" style="display: flex; width: 100%; max-width: 80%; margin: 0 auto; gap: 20px; align-items: center; justify-content: flex-start; padding: 0 0 10px 5%; box-sizing: border-box;">
+    <div style="flex: 0 0 auto; text-align: center;">
+      <span style="width: clamp(80px, 15vw, 100px); height: clamp(80px, 15vw, 100px); border: 4px solid #09898A; border-radius: 50%; overflow: hidden; display: inline-block;">
+        <img src="${x?.imageURL ? x?.imageURL : 'https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/man.webp'}" alt="Customer Image" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;">
+      </span>
+    </div>
+    <div style="flex: 1; text-align: left;">
+      <span style="color: #2B2B2B; font-family: 'Nexa-Bold', sans-serif; font-size: clamp(18px, 5vw, 20px); font-style: normal; font-weight: 400; line-height: normal; display: block;">
+        ${x?.customerName.replace(/ - /, "<br>")}
+      </span>
+    </div>
+  </div>
 
         `);
         }

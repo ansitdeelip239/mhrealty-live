@@ -23,7 +23,9 @@
     display: flex;
     justify-content: center;
 }
-
+#text-color{
+  color: var(--secondary-Headingscolor) !important
+}
 body {
   margin: 0;
   overflow-x: hidden;
@@ -64,11 +66,14 @@ body {
   display: block;
   color: var(--secondary-FooterLinkingcolor);
   text-align: center;
-  padding: 25px 16px;
+  padding: 15px 16px;
   text-decoration: none;
-  padding-right: 35px;
+  padding-right: 25px;
   letter-spacing: 1px;
   font-size: 1.15rem;
+  height: 50px;
+  line-height: 20px;
+  margin-right: 10px; /* Add margin between items */
 }
 .navbar .anchor:hover {
   background-color: var(--primary-Whitecolor);
@@ -86,22 +91,26 @@ body {
   letter-spacing: 1.6px;
   color: var(--secondary-FooterLinkingcolor);
 }
+/* Update navbar button margins */
 .navbar-button {
   color: var(--primary-Whitecolor);
   border: none;
-  padding: 6px 25px;
+  padding: 6px 20px; /* Slightly reduce padding */
   cursor: pointer;
   display: inline-flex;
   gap: 5px;
   background-color: var(--primary-color);
+  margin-right: 10px; /* Add margin between buttons */
+  margin-bottom: 5px; /* Add margin below buttons */
 }
 .contact-buttons {
   margin-top: 5px;
 }
 .homeloan-button {
-  color: var(--primary-Whitecolor);
-  border: none;
-  padding: 21px 10px 28px 10px;
+  color: var(--secondary-FooterLinkingcolor);
+  border: 2px solid var(--primary-color);
+  padding: 10px 20px;
+  /* Reduced padding */
   text-align: center;
   white-space: nowrap;
   align-items: center;
@@ -110,22 +119,26 @@ body {
   display: inline-flex;
   position: relative;
   margin: 5px;
-  background-color: var(--primary-color);
-  font-weight: 800;
+  /* Reduced margin */
+  background-color: transparent;
+  font-weight: 600;
+  height: 40px;
+  /* Reduced height */
+  line-height: 20px;
 }
 
+/* Update hover state to match */
 .homeloan-button:hover {
-  background-color: white;
+  background-color: transparent;
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
-  border-radius: 10px;
 }
+/* Update active state to match */
 .activate {
-  background-color: white;
+  background-color: transparent;
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
-  border-radius: 10px;
-  font-weight: 800;
+  font-weight: 600;
 }
 .orange-line {
   display: block;
@@ -140,11 +153,42 @@ body {
   height: 20px;
   background-color: orange;
 }
-.linking .orange-line {
+/* .linking .orange-line {
   width: 40%;
+} */
+.homeloan-button:hover,
+.homeloan-button.active {
+  background-color: var(--primary-color);
+  color: var(--primary-Whitecolor);
+  border: 2px solid var(--primary-color);
 }
+
+/* Remove or update the .activate class */
+.activate {
+  background-color: var(--primary-color);
+  color: var(--primary-Whitecolor);
+  border: 2px solid var(--primary-color);
+  font-weight: 600;
+}
+
+/* Update the linking active state to be consistent */
+.linking.active {
+  color: var(--primary-Whitecolor);
+  background-color: var(--primary-color);
+  padding: 15px 16px;
+  border-radius:15px;
+}
+/* Update active state to match new dimensions */s
 .linking.active {
   color: var(--secondary-Headingscolor);
+  background-color: var(--primary-color);
+  padding: 15px 16px;
+  /* Match navbar anchor padding */
+}
+.navbar .anchor:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-Headingscolor);
+   border-radius:15px;
 }
 @media screen and (max-width: 600px) {
   .navbar .anchor,
@@ -167,6 +211,17 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.number {
+  color: var(--primary-Whitecolor);
+  /* Default white color */
+  transition: color 0.3s ease;
+  /* Smooth transition effect */
+}
+
+.navbar-button:hover .number {
+  color: black;
+  font-weight: bold; 
 }
 .topheding {
   width: 100%;
@@ -254,7 +309,7 @@ body {
 .headingsP {
   color: var(--secondary-FooterLinkingcolor);
   font-family: Nexa;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: 30px;
@@ -290,7 +345,7 @@ body {
 }
 
 .headingsSubContainerText1 {
-  color: var(--secondary-Sub-Headingscolor);
+ color: var(--secondary-Headingscolor);
   font-family: Nexa;
   font-size: 24px;
   font-style: normal;
@@ -301,7 +356,7 @@ body {
 .headingsSubContainerText2 {
   color: var(--secondary-FooterLinkingcolor);
   font-family: Nexa !important;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 300;
   line-height: 21px;
@@ -310,8 +365,11 @@ body {
 }
 
 .headingsContainerArrows {
-  margin-left: 50%;
-  padding-top: 20px;
+  display: flex !important;
+  justify-content: flex-end !important; 
+  align-items: center !important;
+  margin-left: auto !important; /* Push to right end */
+  margin-top: 0 !important; /* Remove top margin */
 }
 
 /* Our Services */
@@ -341,13 +399,13 @@ body {
   background: #fff;
   box-shadow: 4px 10px 30px 0px rgba(35, 31, 32, 0.1);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   text-align: center;
   padding: 10px;
   margin-bottom: 10px;
 }
 .services-head {
-  color: var(--secondary-Sub-Headingscolor);
+   color: var(--secondary-Headingscolor);
   font-family: Nexa;
   font-size: 24px;
   font-style: normal;
@@ -401,7 +459,7 @@ body {
 .aboutText {
   color: var(--secondary-FooterLinkingcolor);
   font-family: Nexa;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 399;
   line-height: 32px;
 }
@@ -434,7 +492,6 @@ body {
 .rectBox {
   width: 44px;
   height: 327px;
-  background: var(--secondary-Headingscolor);
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -466,7 +523,7 @@ body {
   font-weight: 700;
   line-height: normal;
   margin-bottom: 50px;
-  text-align: center;
+  text-align: start;
   padding-top: 60px;
 }
 .text-primary-l {
@@ -476,7 +533,7 @@ body {
   background: #fff;
   box-shadow: 4px 10px 30px 0px rgba(35, 31, 32, 0.1);
   display: flex;
-  align-items: center;
+   align-items: stretch;
   text-align: center;
   padding: 20px;
   margin-bottom: 16px;
@@ -508,7 +565,7 @@ body {
 .newContainerHead {
   color: #fff;
   font-family: Nexa;
-  font-size: 36px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 400;
   line-height: 40px;
@@ -518,7 +575,7 @@ body {
 .newContainerBody {
   color: #fff;
   font-family: Nexa;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 300;
   line-height: 26px;
@@ -535,7 +592,7 @@ body {
   padding-bottom: 12px;
   letter-spacing: 2px;
   width: 65%;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 /* Contact Page */
 .ContactSection {
@@ -564,7 +621,7 @@ body {
   font-family: Nexa;
   font-weight: 400;
   color: #ffffff;
-  font-size: 48px;
+  font-size: 38px;
   letter-spacing: 0;
   line-height: initial;
   padding-top: 10px;
@@ -574,8 +631,9 @@ body {
   font-family: Nexa;
   font-weight: 400;
   color: #ffffff;
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 1px;
+      margin-top: 5px;
 }
 .ellipse2 {
   position: absolute;
@@ -606,7 +664,7 @@ body {
 }
 
 .footerHead {
-  color: var(--primary-Blackcolor);
+color:#09898a;
   /* font-family: Nexa Bold; */
   font-family: Nexa;
   font-size: 22px;
@@ -639,6 +697,7 @@ body {
   font-weight: 400;
   line-height: 35px;
   margin-top: 10px;
+  color:#09898a ;
 }
 ul {
   list-style: none;
@@ -772,10 +831,11 @@ label {
   font-family: Nexa;
   font-weight: 400;
   color: #484848;
-  font-size: 24px;
+  font-size: 20px;
   letter-spacing: 0;
   line-height: 26px;
   width: 90%;
+  margin-top:10px;
 }
 input:focus + label,
 input:valid + label,
@@ -802,7 +862,7 @@ textarea:valid + label {
   padding-left: 35px;
   padding-right: 35px;
   font-size: 20px;
-  background-color: var(--secondary-FooterLinkingcolor);
+background-color: #ee5a257a;
   color: var(--primary-Whitecolor);
   border: 0px;
 }
@@ -828,4 +888,121 @@ textarea:valid + label {
 .card.card-body {
   margin-bottom: 10px;
   letter-spacing: 1px;
+  text-align: justify;
+}
+
+/* loader */
+
+ .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Black with low opacity */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ee5925;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+        #indexheading{
+  color: black !important;
+ background-color: rgba(0, 255, 255, 0.247) !important;
+ font-weight: bold;
+}
+
+ @media (max-width: 768px) {
+      .feedbackImg {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+        padding: 0 5% 10px;
+      }
+      .feedbackImg > div:first-child {
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .feedbackImg {
+        max-width: 90%;
+        gap: 10px;
+      }
+      div[style*="font-size: clamp(16px, 4vw, 18px)"] {
+        font-size: clamp(14px, 3.5vw, 16px);
+        padding: 0 3% 20px;
+      }
+      span[style*="font-size: clamp(18px, 5vw, 20px)"] {
+        font-size: clamp(16px, 4vw, 18px);
+      }
+    }
+
+   .download-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #d4cece;
+    padding: 10px 20px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.download-text {
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.google-play-img {
+    width: 144px;
+    height: auto;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .download-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .download-text {
+        font-size: 18px; 
+    }
+
+    .google-play-img {
+        width: 144px; 
+    }
+}
+
+@media (min-width: 768px) {
+    .google-play-img {
+        width: 160px; 
+    }
+
+    .download-text {
+        font-size: 20px; 
+    }
 }

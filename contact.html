@@ -61,6 +61,10 @@
 </head>
 
 <body onLoad="scrollToContactForm()">
+
+   <div id="loaderOverlay" class="loader-overlay">
+        <div class="loader"></div>
+    </div>
   <div id="map"></div>
   <div id="map1"></div>
   <div id="map2"></div>
@@ -227,8 +231,8 @@
             <i class="fa fa-envelope emailIcon"></i>
           </span>
           <span>
-            <a href="mailto:contact@mhrealty.in"
-              class="headingsSubContainerText2">&nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in</a>
+            <a href="mailto:info@mhrealty.in"
+              class="headingsSubContainerText2">&nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in</a>
           </span>
         </div>
       </div>
@@ -236,7 +240,7 @@
 
     <div class="col-md-6" id="scrollContact">
       <span class="headings2">
-        Fill your enquiry here
+        Fill Your Enquiry Here
       </span>
       <svg xmlns="http://www.w3.org/2000/svg" width="100" height="12" viewBox="0 0 100 12" fill="none">
         <path
@@ -296,7 +300,7 @@
         <div class="d-flex" style="text-align: center;justify-content: space-between;">
           <div class="g-recaptcha" id="rcaptcha" data-sitekey="6LdtCSgpAAAAAHm8tDwx8-L9LoDGx25ySNH9dPCv"
             data-callback="correctCaptcha"></div>
-          <button id="contactus-btn" type="button" disabled class="button button-contactForm"
+          <button style="cursor: pointer;"  id="contactus-btn" type="button" disabled class="button button-contactForm"
             onclick="sendMessageGetinTouchForm()" style="font-size: 2rem;">Submit</button>
         </div>
         <!-- <button id="contactus-btn" type="button" disabled class="button button-contactForm"
@@ -305,10 +309,18 @@
     </div>
   </div>
 
-  <div style="display: inline-flex; width: 100%;gap: 5px;">
+  <div style="display: inline-flex; width: 100%;gap:20px;">
     <div class="map" style="overflow: hidden;">
       <iframe
+
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1885.3913582662149!2d72.99441814759581!3d19.073288618980374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c14a7fbb8d0d%3A0x8b9c74cca787a807!2sSector%202%2C%20Vashi%2C%20Navi%20Mumbai%2C%20Maharashtra%20400703!5e0!3m2!1sen!2sin!4v1710847749872!5m2!1sen!2sin"
+        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <!-- map-2 -->
+     <div class="map" style="overflow: hidden;">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3722.9256800322646!2d79.07322228087345!3d21.07563035846296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4bf19a4e7dc31%3A0x52b87f3f35fd7251!2sDMart%20Beltarodi!5e0!3m2!1sen!2sin!4v1748424487578!5m2!1sen!2sin"
         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
@@ -334,7 +346,7 @@
         </div>
       </div>
       <div class="col-md-3 tabContainerSubBody" style="align-self: center;">
-        <div class="orange-box3" onClick="scrollToContactForm()">
+        <div style="cursor: poiner;" class="orange-box3" onClick="scrollToContactForm()">
           Contact Us
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="13" viewBox="0 0 36 13" fill="none">
             <path
@@ -457,8 +469,8 @@
                     <i class="fa fa-envelope emailIcon"></i>
                   </div>
                   <div>
-                    <a href="mailto:contact@mhrealty.in" class="footerText">
-                      &nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in
+                    <a href="mailto:info@mhrealty.in" class="footerText">
+                      &nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in
                     </a>
                   </div>
                 </li>
@@ -495,8 +507,8 @@
       <div class="col-md-4 footerBody">
         <ul>
           <li style="text-align: center;">
-            <img style="mix-blend-mode: multiply; height: 110px; cursor: pointer;"
-              src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735636747/MHRealty/MHRealty-logo-black.webp"
+            <img style=" height: 110px; cursor: pointer;"
+              src="assets/MHRealty/MHRealty-logo.png"
               alt="Logo" class="logoIMG" loading="lazy" onClick="redirectToPage()" />
           </li>
           <li class="footerTextLink">
@@ -564,12 +576,12 @@
   <div class="copyright">
     <div class="">
       <h6 class="copyrightText" id="copyrightText">
-        Copyright ©2023&nbsp;MHRealty All rights reserved.
+        Copyright ©2022&nbsp;MHRealty All rights reserved.
       </h6>
     </div>
     <div class="linkCompanyTab">
       <a class="linkCompany" href="https://ansits.com" target="_blank">
-        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="40%" alt="ansit.com"
+        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="160px" height="41px" alt="ansit.com"
             class="img-powered" alt="ansit.com"></h6>
       </a>
     </div>
@@ -587,7 +599,7 @@
     crossorigin="anonymous"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var startYear = 2023;
+      var startYear = 2022;
       var currentYear = new Date().getFullYear();
       var copyrightText = document.getElementById('copyrightText');
 

@@ -61,7 +61,9 @@
   <div id="map"></div>
   <div id="map1"></div>
   <div id="map2"></div>
-
+  <div id="loaderOverlay" class="loader-overlay">
+   <div class="loader"></div>
+</div>
  <div id="navbar-placeholder"></div>
 
   <div>
@@ -325,8 +327,8 @@
                             <i class="fa fa-envelope emailIcon"></i>
                          </div>
                          <div>
-                            <a href="mailto:contact@mhrealty.in" class="footerText">
-                               &nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in
+                            <a href="mailto:info@mhrealty.in" class="footerText">
+                               &nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in
                             </a>
                          </div>
                       </li>
@@ -363,8 +365,8 @@
        <div class="col-md-4 footerBody">
           <ul>
              <li style="text-align: center;">
-                <img style="mix-blend-mode: multiply; height: 110px; cursor: pointer;"
-                   src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735636747/MHRealty/MHRealty-logo-black.webp"
+                <img style="height: 110px; cursor: pointer;"
+                   src="assets/MHRealty/MHRealty-logo.png"
                    alt="Logo" class="logoIMG" loading="lazy" onClick="redirectToPage()" />
              </li>
              <li class="footerTextLink">
@@ -433,7 +435,7 @@
   <div class="copyright">
     <div class="">
       <h6 class="copyrightText" id="copyrightText">
-        Copyright ©2023&nbsp;MHRealty All rights reserved.
+        Copyright ©2022&nbsp;MHRealty All rights reserved.
       </h6>
     </div>
     <div class="linkCompanyTab">
@@ -456,7 +458,7 @@
     crossorigin="anonymous"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var startYear = 2023;
+      var startYear = 2022;
       var currentYear = new Date().getFullYear();
       var copyrightText = document.getElementById('copyrightText');
 

@@ -51,6 +51,9 @@
 </head>
 
 <body>
+   <div id="loaderOverlay" class="loader-overlay">
+        <div class="loader"></div>
+    </div>
   <div id="map"></div>
   <div id="map1"></div>
   <div id="map2"></div>
@@ -68,18 +71,18 @@
       alt="MHRealty" class="img-reponsive" style="width:100%; height: 500px;">
     <div class="overlay"></div>
     <div class="topheding">
-      <p class="text-center heding">
-        Discovering the Core of MHRealty: Take a Look Inside Our Fantastic Universe!</p>
+     <p class="text-center heding">
+        <span style="background-color: #ee5925; border-radius:10px 10px 10px 10px; padding: 10px; font-weight:500">Discovering the Core of MHRealty </span><br/> <span style="font-size:40px; margin-bottom: 5px;">Take a Look Inside Our Fantastic Universe!</span></p>
       <p class="text-center heding2">"Building Trust in Mumbai's Real Estate Excellence: The Navi Mumbai Tapestry."</p>
     </div>
   </div>
 
   <div class="specialContainer">
-    <p class="aboutText" style="">As a team, we will celebrate your uniqueness! In addition to being a platform,
+    <p class="aboutText">As a team, we will celebrate your uniqueness! In addition to being a platform,
       MHRealty
       transforms into a committed haven seeker whose only goal is to find your ideal home in Navi
       Mumbai, the vibrant center of Mumbai.</p>
-    <p class="aboutText" style="">Our level of dedication is beyond the typical expectation. By eliminating false
+    <p class="aboutText">Our level of dedication is beyond the typical expectation. By eliminating false
       listings, MHRealty
       not only speeds up the process of finding a property for you but also relieves you of the
       tiresome nature of house searching. Through the creation of deep relationships between
@@ -110,8 +113,8 @@
           <p class="pera">Explore a few facets of the property's captivating charm—a concept that genuinely appeals to
             human nature. Every one of us has an innate yearning for a location where the sense of
             community can grow into a captivating experience.</p>
-          <div class="pera" style="position:relative;">
-            <ul style="list-style: inherit;">
+          <div class="pera" style="position:relative; font-size: 16px;">
+            <ul>
               <li><i>This location not only provides a place to live, but it also ensures safety, security, and
                   unwavering stability. This is the adventure you are going to take.</i></li>
               <li><i>When you enter a space that promotes authenticity, you will find that being wholly yourself is not
@@ -494,8 +497,8 @@
                     <i class="fa fa-envelope emailIcon"></i>
                   </div>
                   <div>
-                    <a href="mailto:contact@mhrealty.in" class="footerText">
-                      &nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in
+                    <a href="mailto:info@mhrealty.in" class="footerText">
+                      &nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in
                     </a>
                   </div>
                 </li>
@@ -532,8 +535,8 @@
       <div class="col-md-4 footerBody">
         <ul>
           <li style="text-align: center;">
-            <img style="mix-blend-mode: multiply; height: 110px; cursor: pointer;"
-              src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735636747/MHRealty/MHRealty-logo-black.webp"
+            <img style="height: 110px; cursor: pointer;"
+              src="assets/MHRealty/MHRealty-logo.png"
               alt="Logo" class="logoIMG" loading="lazy" onClick="redirectToPage()" />
           </li>
           <li class="footerTextLink">
@@ -601,12 +604,12 @@
   <div class="copyright">
     <div class="">
       <h6 class="copyrightText" id="copyrightText">
-        Copyright ©2023&nbsp;MHRealty All rights reserved.
+        Copyright ©2022&nbsp;MHRealty All rights reserved.
       </h6>
     </div>
     <div class="linkCompanyTab">
       <a class="linkCompany" href="https://ansits.com" target="_blank">
-        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="40%" alt="ansit.com"
+        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="160px" height="41px" alt="ansit.com"
             class="img-powered" alt="ansit.com"></h6>
       </a>
     </div>
@@ -622,7 +625,7 @@
     crossorigin="anonymous"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var startYear = 2023;
+      var startYear = 2022;
       var currentYear = new Date().getFullYear();
       var copyrightText = document.getElementById('copyrightText');
 

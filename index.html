@@ -88,28 +88,33 @@
 </head>
 
 <body>
+    <div id="loaderOverlay" class="loader-overlay">
+        <div class="loader"></div>
+    </div>
    <div id="map"></div>
    <div id="map1"></div>
    <div id="map2"></div>
    <div id="navbar-placeholder"></div>
-   <div class="header" style="position: relative; margin-bottom: 50px">
+   <div class="header-container" style="position: relative; margin-bottom: 50px;">
       <img
-         src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp"
-         alt="MHRealty" class="img-reponsive" style="width: 100%; height: 500px" />
-      <div class="overlay"></div>
-      <div class="topheding">
-         <p class="text-center heding">
-            Find the most artistically crafted homes in
-         </p>
-         <div class="col-md-12 centerBox">
-            <span class="orange-box2"> MUMBAI, NAVI MUMBAI, PUNE & NAGPUR </span>
-         </div>
-         <p class="text-center heding2">
-            Begin your property quest with us, <br />where we transform dreams
-            into living spaces.
-         </p>
+        src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735627708/MHRealty/flats%20for%20rent%20in%20Mumbai-Navi%20Mumbai.webp"
+        alt="MHRealty"
+        class="header-img"
+        style="width: 100%; height: 500px; object-fit: cover;"
+      />
+      <div class="overlay-bg"></div>
+      <div class="header-text">
+        <p class="main-heading text-center">
+          Find the most artistically crafted homes in
+        </p>
+        <div class="highlight-box text-center">
+          <span class="highlight-text">MUMBAI, NAVI MUMBAI, PUNE & NAGPUR</span>
+        </div>
+        <p class="sub-heading text-center">
+          Begin your property quest with us, where we transform dreams into living spaces.
+        </p>
       </div>
-   </div>
+    </div>
    <!-- Featured Properties -->
    <div class="container-fluid">
       <div class="headings col-md-12">
@@ -152,7 +157,7 @@
          <div class="col-md-6 ServicesPart2">
             <div class="headings col-md-12">
                <div>
-                  Our Services We Provided
+                  Services We Provide
                   <svg xmlns="http://www.w3.org/2000/svg" class="custom-svg" viewBox="0 0 100 12" fill="none">
                      <path
                         d="M99.7735 6.00001L94 11.7735L88.2265 6.00001L94 0.226505L99.7735 6.00001ZM8.74228e-08 5L94 5.00001L94 7.00001L-8.74228e-08 7L8.74228e-08 5Z"
@@ -277,7 +282,7 @@
                <div class="col-md-6" style="padding-top: 50px">
                   <!-- <div class="smallHead">VIDEO</div> -->
                   <div class="smallHeading">
-                     Find Out More about Our <br />online Presence
+                    Find Out More About Our <br/> Online Presence 
                   </div>
                   <div class="smallSubHeading">
                      Please feel free to spread the virtual red carpet and settle
@@ -287,7 +292,7 @@
                <div class="col-md-6 videoSEctionBody" style="
                      height: 350px;
                      background-color: #e8e8e880;
-                     bottom: -125px;
+                     /* bottom: -125px; */
                      padding: 12px;
                      ">
                   <div class="ellipse2"></div>
@@ -302,13 +307,13 @@
          </div>
       </div>
    </div>
+ 
    <!-- Feedback Section -->
    <div class="specialContainer specialContainerMargin" style="margin-top: 80px">
       <div style="display: flex" class="popularProperties">
          <div class="col-md-6">
             <span class="headings2">
-               Look What Our Customers<br />
-               Say!
+               Look What Our Customers Say!
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" class="custom-svg" viewBox="0 0 100 12" fill="none">
                <path
@@ -343,6 +348,12 @@
          </div>
       </div>
    </div>
+     <div class="download-section">
+        <p class="download-text">Download our app now</p>
+        <a href="https://mtone.in/application" target="_blank">
+            <img src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735297005/DNCR-WEB/GooglePlay.webp" alt="Get it on Google Play" class="google-play-img">
+        </a>
+    </div>
    <div class="newContainer tabContainer">
       <div style="display: flex" class="popularProperties">
          <div class="col-md-9 tabContainerBody">
@@ -358,7 +369,7 @@
          </div>
          <div class="col-md-3 tabContainerSubBody" style="align-self: center">
             <div class="orange-box3" onClick="redirectToContact()">
-               Contact Us
+              Contact Us
                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="13" viewBox="0 0 36 13" fill="none">
                   <path
                      d="M0.637169 7.17535H33.8101L29.0956 11.9081C28.8467 12.1578 28.8467 12.563 29.0956 12.8126C29.3445 13.0625 29.7478 13.0625 29.9966 12.8126L35.7295 7.05755C35.8927 6.94173 36 6.75168 36 6.53571C36 6.53243 35.9991 6.52938 35.999 6.52611C35.9991 6.5191 35.9971 6.51249 35.997 6.50549C35.994 6.44295 35.9819 6.38327 35.9623 6.32669C35.9508 6.29077 35.9343 6.25836 35.9163 6.22453C35.9002 6.1958 35.8824 6.1686 35.8623 6.14281C35.8443 6.11884 35.8351 6.0907 35.8133 6.06889L29.9545 0.187393C29.8301 0.0624628 29.6671 0 29.504 0C29.341 0 29.178 0.0624628 29.0535 0.187393C28.8046 0.437255 28.8046 0.842029 29.0535 1.09188L33.8392 5.89607H0.637169C0.2854 5.89607 0 6.18237 0 6.53571C0 6.88905 0.2854 7.17535 0.637169 7.17535Z"
@@ -479,8 +490,8 @@
                               <i class="fa fa-envelope emailIcon"></i>
                            </div>
                            <div>
-                              <a href="mailto:contact@mhrealty.in" class="footerText">
-                                 &nbsp;&nbsp;&nbsp;&nbsp;contact@mhrealty.in
+                              <a href="mailto:info@mhrealty.in" class="footerText">
+                                 &nbsp;&nbsp;&nbsp;&nbsp;info@mhrealty.in
                               </a>
                            </div>
                         </li>
@@ -517,8 +528,8 @@
          <div class="col-md-4 footerBody">
             <ul>
                <li style="text-align: center;">
-                  <img style="mix-blend-mode: multiply; height: 110px; cursor: pointer;"
-                     src="https://res.cloudinary.com/dncrproperty-com/image/upload/v1735636747/MHRealty/MHRealty-logo-black.webp"
+                  <img style="height: 110px; cursor: pointer;"
+                     src="assets/MHRealty/MHRealty-logo.png"
                      alt="Logo" class="logoIMG" loading="lazy" onClick="redirectToPage()" />
                </li>
                <li class="footerTextLink">
@@ -585,12 +596,13 @@
   <div class="copyright">
     <div class="">
       <h6 class="copyrightText" id="copyrightText">
-        Copyright ©2023&nbsp;MHRealty All rights reserved.
+        Copyright ©2022&nbsp;MHRealty All rights reserved.
       </h6>
     </div>
+
     <div class="linkCompanyTab">
       <a class="linkCompany" href="https://ansits.com" target="_blank">
-        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="40%" alt="ansit.com"
+        <h6 style="color: grey;">Powered by&nbsp;<img src="./assets/MHRealty/logo_ANSIT.png" width="160px" height="41px" alt="ansit.com"
             class="img-powered" alt="ansit.com"></h6>
       </a>
     </div>
@@ -605,7 +617,7 @@
    <script defer src="slick/slick.min.js"></script>
    <script>
       document.addEventListener("DOMContentLoaded", function () {
-         var startYear = 2023;
+         var startYear = 2022;
          var currentYear = new Date().getFullYear();
          var copyrightText = document.getElementById("copyrightText");
 
